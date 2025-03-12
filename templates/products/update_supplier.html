@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Update supplier's info{% endblock %}
+
+{% block style %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'invoices/css/create_invoice.css' %}" />
+{% endblock %}
+
+{% block page_name %}
+<div class="w-100 d-flex justify-content-center">
+    <a class="navbar-brand mx-auto" href="#">Update supplier's info</a>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <form method="post" >
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-primary" type="submit">Обновить поставщика</button>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {% include 'products/includes/filter_products_scripts.html' %}
+{% endblock %}

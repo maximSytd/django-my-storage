@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "smoke-haven-app"
+version = "0.1.0"
+description = ""
+authors = ["Maxim Sytdikov <maxim.sytdikov@saritasa.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.1"
+django-extensions = "^3.2.3"
+python-dotenv = "^1.0.1"
+django-imagekit = "^5.0.0"
+django-filter = "^24.3"
+django-crispy-forms = "^2.3"
+crispy-bootstrap5 = "^2024.10"
+django-debug-toolbar = "^4.4.6"
+django-otp = "^1.5.4"
+pyotp = "^2.9.0"
+fastapi = "^0.115.5"
+phonenumberslite = "^8.13.50"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

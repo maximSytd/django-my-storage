@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}Поставщики{% endblock %}
+
+{% block style %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'products/css/list.css' %}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block page_name %}
+<div class="w-100 d-flex justify-content-center">
+    <a class="navbar-brand mx-auto" href="#">Поставщики</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'products:create_supplier' %}" class="btn btn-primary ms-auto">
+            <i class="bi bi-plus"></i>
+            Add
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for supplier in suppliers %}
+            <div class="invoice-card">
+                <div>
+                    <i class="bi bi-people"></i>
+                    <span class="ms-2"> {{supplier.name}} &nbsp; </span>
+                    <strong>Email:</strong> {{supplier.email}} 
+                </div>
+                <a href="{% url 'products:update_supplier' supplier.pk %}" class="btn btn-outline-primary edit-button">
+                    <i class="bi bi-pencil"></i> Редактировать
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {% include 'products/includes/filter_products_scripts.html' %}
+{% endblock %}

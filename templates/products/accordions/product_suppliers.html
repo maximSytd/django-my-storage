@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="d-flex justify-content-between mb-1">
+        <h6>Suppliers who shipped this product</h6>
+    </div>
+    <div class="accordion" id="documentsAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Всего ({{ documents | length }})
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#documentsAccordion">
+                <div class="accordion-body bg-secondary bg-gradient">
+                    <div class="row">
+                        {% for document in documents %}
+                        <div class="col-md-4 mb-3">
+                            <div class="document-tile bg-light position-relative" style="color: rgb(58, 58, 58); text-decoration: none; text-align: center;">
+                                <div class="document-content">
+                                    <img class="w-25 h-25" src="https://cdn-icons-png.freepik.com/512/17083/17083565.png?ga=GA1.1.544930138.1722594362">
+                                </div>
+                                <div class="button-container">
+                                    <button class="btn btn-secondary btn-sm position-absolute hidden-button" style="top: 10px; right: 90px;" onclick="window.open('{{ document.file.url }}', '_blank');">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                    <a class="btn btn-info btn-sm position-absolute hidden-button" style="top: 10px; right: 50px;" href="{% url 'invoices:document_download' document.pk %}">
+                                        <i class="bi bi-cloud-download"></i>
+                                    </a>
+                                    <button class="btn btn-danger btn-sm position-absolute hidden-button" style="top: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ document.pk }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="text-decoration-none text-nowrap d-block text-center mt-2 document-name">document</span>
+                        </div>
+                        <div class="modal fade" id="deleteModal{{ document.pk }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" style="margin-top: 10%">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Подтверждение удаления</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-dark">
+                                        Вы уверены, что хотите удалить документ "?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                        <form action="{% url 'invoices:document_delete' document.pk %}" method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Удалить</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-md-12">
+                            <p>Suppliers not found.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

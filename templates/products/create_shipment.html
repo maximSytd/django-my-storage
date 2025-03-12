@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Create Shipment{% endblock %}
+
+{% block style %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'products/css/create.css' %}" />
+{% endblock %}
+
+{% block page_name %}
+<div class="w-100 d-flex justify-content-center">
+    <a class="navbar-brand mx-auto" href="#">Create New Shipment</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.ordered_by|as_crispy_field }}
+        {{ form.status|as_crispy_field }}
+
+        <div id="formset">
+            {{ contents_formset.management_form|crispy }}
+            {% for form in contents_formset %}
+                <div class="content-form" id="form-{{ forloop.counter0 }}">
+                    {{ form.product|as_crispy_field }}
+                    {{ form.quantity|as_crispy_field }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" class="btn btn-secondary" onclick="addForm()">Add Product</button>
+        <button class="btn btn-primary" type="submit">Create Shipment</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function addForm() {
+        console.log('Add Product button clicked!');
+        const formset = document.getElementById('formset');
+        if (!formset) {
+            console.error('Formset not found!');
+            return;
+        }
+        const totalForms = document.getElementById('id_form-TOTAL_FORMS');
+        if (!totalForms) {
+            console.error('TOTAL_FORMS input not found!');
+            return;
+        }
+        const formNum = parseInt(totalForms.value);
+
+        const lastForm = formset.querySelector('.content-form:last-child');
+        const newForm = lastForm.cloneNode(true);
+
+        const regex = new RegExp(`form-${formNum - 1}`, 'g');
+        newForm.innerHTML = newForm.innerHTML.replace(regex, `form-${formNum}`);
+        newForm.querySelectorAll('input').forEach(input => input.value = '');
+        formset.appendChild(newForm);
+        totalForms.value = formNum + 1;
+    }
+</script>
+{% endblock %}

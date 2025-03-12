@@ -1,0 +1,73 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Подключаем Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #2a2a2a; /* Светлее */
+            font-size: 1rem; /* Увеличиваем размер текста */
+        }
+        .login-container {
+            margin: 0 20%;
+            width: auto;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-box {
+            background-color: #333;
+            padding: 3rem; /* Увеличенное окно */
+            width: 40%; /* Увеличено */
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .btn-light {
+            padding: 0.75rem 1rem; /* Увеличиваем размер кнопки */
+            font-size: 1.1rem; /* Увеличиваем размер шрифта кнопки */
+        }
+        .form-control {
+            background-color: #444;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            padding: 0.75rem; /* Увеличиваем внутренние отступы */
+        }
+        .form-control:focus {
+            background-color: #555;
+            color: #fff;
+            box-shadow: none;
+        }
+        .form-label {
+            color: #fff; /* Белый цвет для лейблов */
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+        <form action="" method="post">
+            {{ form.error|crispy }}
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-light rounded">Войти</button>
+            </div>
+          </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+</body>
+</html>

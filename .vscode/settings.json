@@ -1,0 +1,16 @@
+{
+    "cSpell.words": [
+        "dotenv",
+        "filterset",
+        "imagekit",
+        "imagekitmodels",
+        "pyotp",
+        "qrcode",
+        "totp",
+        "uidb"
+    ],
+    "files.exclude": {
+       "**/__pycache__": true
+     },
+     "editor.rulers": [79]
+}

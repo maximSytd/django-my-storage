@@ -1,0 +1,81 @@
+from django.urls import path
+
+from .views import (
+    CategoryCreateView,
+    CategoryUpdateView,
+    CategoryDeleteView,
+    ProductCreateView,
+    ProductListView,
+    ProductDetailView,
+    ProductUpdateView,
+    ProductDeleteView,
+    SupplierCreateView,
+    SupplierListView,
+    SupplierUpdateView,
+    ShipmentCreateView,
+)
+
+app_name = "products"
+
+urlpatterns = [
+    path(
+        "categories/create/",
+        CategoryCreateView.as_view(),
+        name="create_category",
+    ),
+    path(
+        "categories/<int:pk>/update/",
+        CategoryUpdateView.as_view(),
+        name="update_category",
+    ),
+    path(
+        "categories/<int:pk>/delete/",
+        CategoryDeleteView.as_view(),
+        name="delete_category",
+    ),
+    path(
+        "",
+        ProductListView.as_view(),
+        name="list_products",
+    ),
+    path(
+        "create/",
+        ProductCreateView.as_view(),
+        name="create_product",
+    ),
+    path(
+        "<int:pk>/detail/",
+        ProductDetailView.as_view(),
+        name="detail_product",
+    ),
+    path(
+        "<int:pk>/update/",
+        ProductUpdateView.as_view(),
+        name="update_product",
+    ),
+    path(
+        "<int:pk>/delete/",
+        ProductDeleteView.as_view(),
+        name="delete_product",
+    ),
+    path(
+        "suppliers/",
+        SupplierListView.as_view(),
+        name="list_suppliers",
+    ),
+    path(
+        "suppliers/create/",
+        SupplierCreateView.as_view(),
+        name="create_supplier",
+    ),
+    path(
+        "suppliers/<int:pk>/update",
+        SupplierUpdateView.as_view(),
+        name="update_supplier",
+    ),
+    path(
+        "shipments/create/",
+        ShipmentCreateView.as_view(),
+        name="create_shipment",
+    ),
+]

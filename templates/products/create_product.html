@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Add product{% endblock %}
+
+{% block style %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'products/css/create.css' %}" />
+{% endblock %}
+
+{% block page_name %}
+<div class="w-100 d-flex justify-content-center">
+    <a class="navbar-brand mx-auto" href="#">Add new product to storage</a>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.name|as_crispy_field }}
+            {{ form.supplier|as_crispy_field }}
+            {{ form.category|as_crispy_field }}
+            {{ form.sku|as_crispy_field }}
+            {{ form.min_quantity|as_crispy_field}}
+            {{ form.picture|as_crispy_field}}
+            <button class="btn btn-primary" type="submit">Add new product</button>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {% include 'products/includes/filter_products_scripts.html' %}
+{% endblock %}

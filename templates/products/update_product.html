@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Обновление накладной{% endblock %}
+
+{% block style %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'products/css/update.css' %}" />
+{% endblock %}
+
+{% block page_name %}
+<div class="w-100 d-flex justify-content-center">
+    <a class="navbar-brand mx-auto" href="#">Обновление накладной</a>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.errors }}
+            {{ form.name|as_crispy_field }}
+            {{ form.supplier|as_crispy_field }}
+            {{ form.category|as_crispy_field }}
+            <div>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                    Manage Categories
+                </button>
+            </div>
+            <div class="image-container">
+                {% if product.picture_thumbnail %}
+                    <img id="product-image" src="{{ product.picture.url }}" alt="{{ product.name }}" class="product-image">
+                {% else %}
+                    <div class="no-image">No Image</div>
+                {% endif %}
+            </div>
+            {{ form.min_quantity|as_crispy_field }}
+            {{ form.sku|as_crispy_field }}
+            {{ form.picture|as_crispy_field }}
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'products:detail_product' pk=product.pk %}" class="btn btn-secondary">Back</a>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+    {% include 'products/includes/categories_modal.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'products/includes/filter_products_scripts.html' %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.querySelector('input[type="file"]');
+            const productImage = document.getElementById('product-image');
+
+            if (imageInput && productImage) {
+                imageInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            productImage.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

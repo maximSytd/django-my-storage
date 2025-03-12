@@ -1,0 +1,196 @@
+.document-tile {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.document-tile:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.document-content {
+    padding: 20px;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+.info-container {
+    border-radius: 5px;
+    background-color: rgb(63, 63, 63);
+    padding: 10px;
+    width: auto;
+    margin-right: 5%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.product-image {
+    width: 150px; /* Фиксированная ширина изображения */
+    height: 150px; /* Фиксированная высота изображения */
+    border-radius: 8px; /* Скругление углов */
+    object-fit: cover; /* Сохраняем пропорции изображения */
+}
+
+.no-image {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+    padding: 1%;
+}
+
+body {
+    background-color: #2a2a2a;
+    font-size: 1rem;
+    color: #ffffff;
+}
+.navbar {
+    background-color: #1f1f1f;
+}
+.content-container {
+    max-width: 60%;
+    margin: auto;
+    padding: 0.5rem;
+    background-color: #333;
+    border-radius: 10px;
+    margin-top: 1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.offcanvas {
+    background-color: #444;
+    color: #ffffff;
+}
+.invoice-card {
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: #fff;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный переход */
+}
+
+.invoice-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #555;
+    border-color: #666;
+}
+.payment-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+}
+.paid, .unpaid {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+}
+.unpaid {
+    background-color: #dc3545;
+}
+.overdue {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    background-color: #ff9800;
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+    transform: translateY(-50%);
+}
+.search-form {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+.select2-results {
+    color: black;
+}
+#div_id_supplier {
+display: block;
+}
+
+#div_id_supplier label,
+#div_id_supplier .select2 {
+    display: block;
+    width: 100%;
+}
+.custom-link {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+.small-icon {
+    font-size: 0.2rem;
+}
+
+
+.product-header {
+    display: flex; /* Включаем Flexbox */
+    align-items: center; /* Выравниваем элементы по вертикали по центру */
+    gap: 16px; /* Расстояние между изображением и названием */
+    margin-bottom: 1%;
+}
+
+
+/* Flex-контейнер для выравнивания */
+.info-container .d-flex {
+    display: flex;
+    gap: 20px; /* Отступ между блоками */
+}
+
+/* Блок с характеристиками */
+.product-details {
+    flex: 1; /* Занимает всё доступное пространство */
+}
+
+/* Блок с изображением */
+.product-image-container {
+    flex: 0 0 auto; /* Не растягивается, занимает столько места, сколько нужно */
+    width: 200px; /* Фиксированная ширина для изображения (можно изменить) */
+    display: flex;
+    align-items: flex-start; /* Выравниваем изображение по верхнему краю */
+    margin-left: auto;
+}
+
+
+.category-link {
+    margin-left: 2%;
+    display: inline-block; /* Чтобы рамка работала корректно */
+    padding: 4px 8px; /* Внутренние отступы */
+    border: 2px solid #8a2be2; /* Фиолетовая рамка */
+    border-radius: 8px; /* Закруглённые края */
+    color: #8a2be2; /* Фиолетовый цвет текста */
+    text-decoration: none; /* Убираем подчёркивание */
+    font-weight: bold; /* Жирный текст */
+    transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+}
+
+/* Стили при наведении */
+.category-link:hover {
+    background-color: #8a2be2; /* Фиолетовый фон */
+    color: white; /* Белый текст */
+}

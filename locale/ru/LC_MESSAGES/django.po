@@ -1,0 +1,209 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-31 22:47+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+#: apps/core/admin/base_admin.py:20
+msgid "Extra info"
+msgstr "Дополнительная информация"
+
+#: apps/invoices/admin/invoice.py:46 apps/products/admin/supplier.py:51
+msgid "Main Info"
+msgstr "Основная информация"
+
+#: apps/invoices/apps.py:9 apps/invoices/models/invoice.py:51
+msgid "Invoices"
+msgstr "Счета"
+
+#: apps/invoices/models/document.py:18
+msgid "Object ID"
+msgstr "Идентификатор объекта"
+
+#: apps/invoices/models/document.py:29
+msgid "Document"
+msgstr "Документ"
+
+#: apps/invoices/models/document.py:30
+msgid "Documents"
+msgstr "Документы"
+
+#: apps/invoices/models/invoice.py:18
+#: apps/invoices/models/invoice_payment.py:22
+msgid "Amount"
+msgstr "Сумма"
+
+#: apps/invoices/models/invoice.py:27
+msgid "Supplier id"
+msgstr "Идентификатор поставщика"
+
+#: apps/invoices/models/invoice.py:33
+msgid "Deadline"
+msgstr "Срок"
+
+#: apps/invoices/models/invoice.py:39
+msgid "Paid"
+msgstr "Оплачено"
+
+#: apps/invoices/models/invoice.py:40
+msgid "Not paid"
+msgstr "Не оплачено"
+
+#: apps/invoices/models/invoice.py:46
+msgid "Payment status"
+msgstr "Статус платежа"
+
+#: apps/invoices/models/invoice.py:50
+msgid "Invoice"
+msgstr "Счет"
+
+#: apps/invoices/models/invoice_payment.py:17
+msgid "Invoice id"
+msgstr "Идентификатор счета"
+
+#: apps/invoices/models/invoice_payment.py:33
+msgid "Cash"
+msgstr "Наличные"
+
+#: apps/invoices/models/invoice_payment.py:34
+msgid "Non cash"
+msgstr "Безналичные"
+
+#: apps/invoices/models/invoice_payment.py:38
+msgid "Payment type"
+msgstr "Тип платежа"
+
+#: apps/invoices/models/invoice_payment.py:43
+msgid "Invoice payment"
+msgstr "Платеж по счету"
+
+#: apps/invoices/models/invoice_payment.py:44
+msgid "Invoice payments"
+msgstr "Платежи по счетам"
+
+#: apps/products/apps.py:9
+msgid "Products"
+msgstr "Продукты"
+
+#: apps/products/models/supplier.py:15
+msgid "Name"
+msgstr "Имя"
+
+#: apps/products/models/supplier.py:20
+msgid "INN"
+msgstr "ИНН"
+
+#: apps/products/models/supplier.py:25
+msgid "BIK"
+msgstr "БИК"
+
+#: apps/products/models/supplier.py:30
+msgid "Phone number"
+msgstr "Номер телефона"
+
+#: apps/products/models/supplier.py:35
+msgid "Supplier"
+msgstr "Поставщик"
+
+#: apps/products/models/supplier.py:36
+msgid "Suppliers"
+msgstr "Поставщики"
+
+#: apps/products/models/validators.py:10
+msgid "INN digits amount should be between 10 and 12."
+msgstr "Количество цифр ИНН должно быть между 10 и 12."
+
+#: apps/products/models/validators.py:13
+msgid "INN should contain digits only."
+msgstr "ИНН должен содержать только цифры."
+
+#: apps/products/models/validators.py:15
+msgid "INN can't starts with 0."
+msgstr "ИНН не может начинаться с 0."
+
+#: apps/products/models/validators.py:20
+msgid "BIK should contains 9 symbols."
+msgstr "БИК должен содержать 9 символов."
+
+#: apps/products/models/validators.py:22
+msgid "BIK should contain digits only."
+msgstr "БИК должен содержать только цифры."
+
+#: apps/products/models/validators.py:24
+msgid "BIK russian should start with `04`."
+msgstr "Российский БИК должен начинаться с `04`."
+
+#: apps/products/models/validators.py:31
+msgid "Phone number should start with `+7` or `8`."
+msgstr "Номер телефона должен начинаться с `+7` или `8`."
+
+#: apps/users/admin/user.py:62
+msgid "Personal info"
+msgstr "Личная информация"
+
+#: apps/users/admin/user.py:72
+msgid "Permissions"
+msgstr "Разрешения"
+
+#: apps/users/apps.py:9 apps/users/models/user.py:120
+msgid "Users"
+msgstr "Пользователи"
+
+#: apps/users/models/user.py:62
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: apps/users/models/user.py:66
+msgid "First name"
+msgstr "Имя"
+
+#: apps/users/models/user.py:71
+msgid "Last name"
+msgstr "Фамилия"
+
+#: apps/users/models/user.py:76
+msgid "Email address"
+msgstr "Адрес электронной почты"
+
+#: apps/users/models/user.py:81
+msgid "Staff status"
+msgstr "Статус сотрудника"
+
+#: apps/users/models/user.py:84
+msgid "Designates whether the user can log into this admin site."
+msgstr "Указывает, может ли пользователь войти в эту административную панель."
+
+#: apps/users/models/user.py:88
+msgid "Active"
+msgstr "Активный"
+
+#: apps/users/models/user.py:91
+msgid "Designates whether this user should be treated as active."
+msgstr "Указывает, должен ли этот пользователь считаться активным."
+
+#: apps/users/models/user.py:95
+msgid "Avatar"
+msgstr "Аватар"
+
+#: apps/users/models/user.py:119
+msgid "User "
+msgstr "Пользователь"
+
+#: config/common/internationalization.py:10
+msgid "Russian"
+msgstr "Русский"

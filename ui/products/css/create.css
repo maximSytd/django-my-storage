@@ -1,0 +1,66 @@
+body {
+    background-color: #2a2a2a;
+    font-size: 1rem;
+    color: #ffffff;
+}
+.navbar {
+    background-color: #1f1f1f;
+}
+.content-container {
+    max-width: 60%;
+    margin: auto;
+    padding: 2rem;
+    background-color: #333;
+    border-radius: 10px;
+    margin-top: 2rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.offcanvas {
+    background-color: #444;
+    color: #ffffff;
+}
+.form-container {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+.select2-results {
+    color: black;
+}
+#div_id_supplier {
+display: block;
+}
+
+#div_id_supplier label,
+#div_id_supplier .select2 {
+    display: block;
+    width: 100%;
+}
+
+.custom-link {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.product-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.no-image {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+    padding: 1%;
+}
+
+
