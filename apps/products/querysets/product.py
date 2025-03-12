@@ -52,7 +52,9 @@ class ProductQueryset(QuerySet):
             ),
             is_in_shortage=Case(
                 When(
-                    min_quantity__gt=F("in_storage_quantity") + F("processing_quantity"),
+                    min_quantity__gt=(
+                        F("in_storage_quantity") + F("processing_quantity"),
+                    ),
                     then=True,
                 ),
                 default=False,
