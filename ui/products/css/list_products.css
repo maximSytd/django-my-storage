@@ -3,9 +3,6 @@ body {
     font-size: 1rem;
     color: #ffffff;
 }
-.navbar {
-    background-color: #1f1f1f;
-}
 .content-container {
     max-width: 60%;
     margin: auto;
@@ -14,10 +11,6 @@ body {
     border-radius: 10px;
     margin-top: 1rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-.offcanvas {
-    background-color: #444;
-    color: #ffffff;
 }
 .invoice-card {
     background-color: #444;
@@ -103,10 +96,10 @@ display: block;
 }
 
 .product-image {
-    width: 50px; /* Фиксированная ширина изображения */
-    height: 50px; /* Фиксированная высота изображения */
-    border-radius: 8px; /* Скругление углов */
-    object-fit: cover; /* Сохраняем пропорции изображения */
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
 }
 
 .no-image {

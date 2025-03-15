@@ -15,7 +15,6 @@ class ProductFilter(filterset.FilterSet):
                 "placeholder": "input id",
             }
         ),
-        lookup_expr="iexact",
         label="id",
     )
 

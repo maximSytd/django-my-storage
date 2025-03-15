@@ -14,6 +14,7 @@ from .views import (
     SupplierUpdateView,
     ShipmentCreateView,
     ShipmentListView,
+    ShipmentDetailView,
 )
 
 app_name = "products"
@@ -70,7 +71,7 @@ urlpatterns = [
         name="create_supplier",
     ),
     path(
-        "suppliers/<int:pk>/update",
+        "suppliers/<int:pk>/update/",
         SupplierUpdateView.as_view(),
         name="update_supplier",
     ),
@@ -84,4 +85,9 @@ urlpatterns = [
         ShipmentListView.as_view(),
         name="list_shipments",
     ),
+    path(
+        "shipments/<int:pk>/detail/",
+        ShipmentDetailView.as_view(),
+        name="detail_shipment",
+    )
 ]

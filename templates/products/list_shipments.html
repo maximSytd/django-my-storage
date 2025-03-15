@@ -7,7 +7,7 @@
 
 {% block style %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'products/css/list.css' %}" />
+<link rel="stylesheet" href="{% static 'products/css/list_shipments.css' %}" />
 {% endblock %}
 
 {% block page_name %}
@@ -25,19 +25,19 @@
                 {{ filter.form.id|as_crispy_field }}
             </div>
             <div class="col-md-3">
-                {{ filter.form.ordered_by|as_crispy_field }}
+                {{ filter.form.product|as_crispy_field }}
             </div>
             <div class="col-md-3">
                 {{ filter.form.status|as_crispy_field }}
             </div>
             <div class="col-md-3">
-                {{ filter.form.product|as_crispy_field }}
+                {{ filter.form.ordered_by|as_crispy_field }}
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-search"></i> Найти
+                    <i class="bi bi-search"></i> Find
                 </button>
             </div>
         </div>
@@ -45,21 +45,22 @@
     <div class="d-flex justify-content-between mb-1">
         <a href="{% url 'products:create_shipment' %}" class="btn btn-primary ms-auto">
             <i class="bi bi-plus"></i>
-            Добавить
+            Add
         </a>
     </div>
     <div>
         {% for shipment in shipments %}
-        <a href="#" style="text-decoration: none; color: inherit;">
-            <div class="invoice-card">
-                <div class="product-status">
+        <a href="{% url 'products:detail_shipment' pk=shipment.pk %}" style="text-decoration: none; color: inherit;">
+            <div class="shipment-card">
+                <!-- Статус поставки в правом верхнем углу -->
+                <div class="shipment-status {{ shipment.status|lower|slugify }}">
                     <i class="bi bi-truck"></i>
                     {{ shipment.get_status_display }}
                 </div>
                 <div class="product-header">
-                    <h5 class="shipment-name">
-                        Sipment #{{ shipment.id }}
-                    </h5>
+                    <h6 class="shipment-name">
+                        Shipment #{{ shipment.id }}
+                    </h6>
                 </div>
                 <p class="mb-1">
                     <i class="bi bi-person"></i>
@@ -67,8 +68,15 @@
                 </p>
                 <p class="mb-1">
                     <i class="bi bi-box"></i>
-                    Positions amount: {{ shipment.shipment_contents.count }}
+                    Total products quantity: {{ shipment.total_products_quantity }}
                 </p>
+                <p class="mb-1">
+                    <i class="bi bi-list-ul"></i>
+                    Positions amount: {{ shipment.positions_count }}
+                </p>
+                <div class="shipment-date text-secondary">
+                    Shipment from {{ shipment.created.date }}
+                </div>
             </div>
         </a>
         {% endfor %}

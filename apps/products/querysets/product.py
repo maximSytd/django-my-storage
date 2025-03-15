@@ -64,13 +64,3 @@ class ProductQueryset(QuerySet):
                 output_field=BooleanField(),
             ),
         )
-
-    # def with_shipments(self) -> typing.Self:
-    #     shipments_subquery = models.Shipment.objects.filter(
-    #         shipment_contents__product=OuterRef('pk')
-    #     ).distinct()
-
-    #     # Аннотируем каждый продукт списком связанных Shipment
-    #     return self.annotate(
-    #         shipments=Subquery(shipments_subquery.values('id'))
-    #     )

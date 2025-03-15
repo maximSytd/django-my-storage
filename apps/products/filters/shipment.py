@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django_filters import filterset
 
 from ..models import Shipment, Product
-
+from apps.users.models import User
 
 class ShipmentFilter(filterset.FilterSet):
     """Represent filter of shipments list."""
@@ -12,14 +12,14 @@ class ShipmentFilter(filterset.FilterSet):
         widget=forms.NumberInput(
             attrs={
                 "placeholder": _("input id"),
+                "class": "h-50",
             }
         ),
-        lookup_expr="iexact",
         label=_("id"),
     )
 
     ordered_by = filterset.ModelChoiceFilter(
-        queryset=Shipment.objects.all(),
+        queryset=User.objects.all(),
         widget=forms.Select(
             attrs={
                 "class": "select2 form-select",

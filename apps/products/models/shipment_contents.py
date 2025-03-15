@@ -17,7 +17,7 @@ class ShipmentContents(BaseModel):
     product = models.ForeignKey(
         to="products.Product",
         related_name="shipment_contents",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("Product"),
     )
     quantity = models.IntegerField(

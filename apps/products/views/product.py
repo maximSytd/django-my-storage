@@ -71,3 +71,4 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
+    success_url = reverse_lazy("products:list_products")

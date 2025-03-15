@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, DetailView
 from django.forms import formset_factory
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,6 +16,7 @@ class ShipmentListView(LoginRequiredMixin, FilterView):
     filterset_class = ShipmentFilter
     template_name = "products/list_shipments.html"
     context_object_name = "shipments"
+    queryset = Shipment.objects.with_contains()
 
 class ShipmentCreateView(LoginRequiredMixin, CreateView):
     model = Shipment
@@ -47,3 +48,10 @@ class ShipmentCreateView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+
+class ShipmentDetailView(LoginRequiredMixin, DetailView):
+    model = Shipment
+    template_name = "products/detail_shipment.html"
+    context_object_name = "shipment"
+    queryset = Shipment.objects.with_contains()

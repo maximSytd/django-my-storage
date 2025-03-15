@@ -1,0 +1,147 @@
+body {
+    background-color: #2a2a2a;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.content-container {
+    max-width: 60%;
+    margin: auto;
+    padding: 0.5rem;
+    background-color: #333;
+    border-radius: 10px;
+    margin-top: 1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.shipment-card {
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: #fff;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shipment-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #555;
+    border-color: #666;
+}
+
+.search-form {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.select2-results {
+    color: black;
+}
+
+#div_id_supplier {
+    display: block;
+}
+
+#div_id_supplier label,
+#div_id_supplier .select2 {
+    display: block;
+    width: 100%;
+}
+
+.custom-link {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.small-icon {
+    font-size: 0.2rem;
+}
+
+.product-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1%;
+}
+
+.no-image {
+    width: 50px;
+    height: 50px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+    padding: 1%;
+}
+
+.product-name {
+    margin: 0;
+    font-size: 18px;
+    color: #fffafa;
+}
+
+p i {
+    margin-right: 8px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.shipment-card:hover p i {
+    color: #ffcc00;
+}
+
+.shipment-status {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background-color: #555;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.shipment-status i {
+    font-size: 16px;
+}
+
+.shipment-status.in-assembly {
+    background-color: #ff9800;
+}
+
+.shipment-status.in-delivery {
+    background-color: #4caf50;
+}
+
+.shipment-status.being-unloaded {
+    background-color: #2196f3;
+}
+
+.shipment-status.under-review {
+    background-color: #9c27b0;
+}
+
+.shipment-status.accepted {
+    background-color: #607d8b;
+}
+
+.shipment-date {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    color: #6c757d;
+    font-size: 14px;
+}
