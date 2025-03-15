@@ -19,4 +19,5 @@ from .supplier import (
 
 from .shipment import (
     ShipmentCreateView,
+    ShipmentListView,
 )

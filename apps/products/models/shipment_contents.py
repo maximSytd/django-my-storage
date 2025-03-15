@@ -16,7 +16,7 @@ class ShipmentContents(BaseModel):
     )
     product = models.ForeignKey(
         to="products.Product",
-        related_name="shipments",
+        related_name="shipment_contents",
         on_delete=models.RESTRICT,
         verbose_name=_("Product"),
     )

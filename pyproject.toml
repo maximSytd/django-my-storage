@@ -19,6 +19,7 @@ django-otp = "^1.5.4"
 pyotp = "^2.9.0"
 fastapi = "^0.115.5"
 phonenumberslite = "^8.13.50"
+psycopg2-binary = "^2.9.10"
 
 
 [build-system]

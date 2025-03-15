@@ -6,19 +6,21 @@ from django.db.models import (
     Subquery,
     QuerySet,
     OuterRef,
+    Prefetch,
     Case,
     When,
     Sum,
     F,
 )
 from django.db.models.functions import Coalesce
+from django.contrib.postgres.aggregates import ArrayAgg
 
 from .. import models
 
 
 class ProductQueryset(QuerySet):
 
-    def with_shipments(self) -> typing.Self:
+    def with_quantity(self) -> typing.Self:
         related_subquery = models.ShipmentContents.objects.filter(
             product=OuterRef("pk"),
         )
@@ -40,6 +42,7 @@ class ProductQueryset(QuerySet):
         ).values("total")[:1]
 
         return self.prefetch_related("category").annotate(
+
             in_storage_quantity=Coalesce(
                 Subquery(accepted_quantity_subquery),
                 0,
@@ -53,7 +56,7 @@ class ProductQueryset(QuerySet):
             is_in_shortage=Case(
                 When(
                     min_quantity__gt=(
-                        F("in_storage_quantity") + F("processing_quantity"),
+                        F("in_storage_quantity") + F("processing_quantity")
                     ),
                     then=True,
                 ),
@@ -61,3 +64,13 @@ class ProductQueryset(QuerySet):
                 output_field=BooleanField(),
             ),
         )
+
+    # def with_shipments(self) -> typing.Self:
+    #     shipments_subquery = models.Shipment.objects.filter(
+    #         shipment_contents__product=OuterRef('pk')
+    #     ).distinct()
+
+    #     # Аннотируем каждый продукт списком связанных Shipment
+    #     return self.annotate(
+    #         shipments=Subquery(shipments_subquery.values('id'))
+    #     )

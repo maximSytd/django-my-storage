@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 from apps.core.models import BaseModel
+from .. import querysets
 
 class Shipment(BaseModel):
     """Represent Shipment in db."""
@@ -27,9 +28,11 @@ class Shipment(BaseModel):
         max_length=16,
     )
 
+    objects = querysets.ShipmentQueryset.as_manager()
+
     class Meta:
         verbose_name = _("Shipment")
         verbose_name_plural = _("Shipments")
 
     def __str__(self) -> str:
-        return f"Shipment(id={self.id},quantity={self.quantity})"
+        return f"Shipment(id={self.id})"

@@ -62,15 +62,13 @@
         <div>
             {% include 'products/accordions/product_shipments.html' %}
         </div>
-        <div class="border-top my-4"></div>
-        {% include 'products/accordions/product_suppliers.html' %}
     </div>
 </div>
 
 {% endblock %}
 
 {% block scripts %}
-{% include 'products/includes/filter_products_scripts.html' %}
+{% include 'products/includes/filter_common_scripts.html' %}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb0K5uD1WqUj8A6z1j9q1j1F3d9Hk5Wc7g3i4t5q+2Hc2t5" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-4T9R8k3I0x5K6k6I6G7nH5C5p5L5g5z5L5g5L5g5L5g5L5g5L5g5L5g5L5g5" crossorigin="anonymous"></script>
 {% endblock %}
