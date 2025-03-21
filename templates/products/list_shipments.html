@@ -52,7 +52,6 @@
         {% for shipment in shipments %}
         <a href="{% url 'products:detail_shipment' pk=shipment.pk %}" style="text-decoration: none; color: inherit;">
             <div class="shipment-card">
-                <!-- Статус поставки в правом верхнем углу -->
                 <div class="shipment-status {{ shipment.status|lower|slugify }}">
                     <i class="bi bi-truck"></i>
                     {{ shipment.get_status_display }}

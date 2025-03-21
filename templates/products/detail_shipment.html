@@ -7,101 +7,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-<link rel="stylesheet" href="{% static 'products/css/detail.css' %}" />
-<style>
-    .shipment-detail {
-        background-color: #444;
-        border: 1px solid #555;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        color: #fff;
-        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
-        margin-bottom: 1rem;
-    }
-
-    .shipment-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    .shipment-header h3 {
-        margin: 0;
-    }
-
-    .shipment-status {
-        background-color: #555;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 14px;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .shipment-status i {
-        font-size: 16px;
-    }
-
-    .shipment-contents {
-        margin-top: 1rem;
-    }
-
-    .content-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #555;
-        border: 1px solid #666;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 0.5rem;
-        color: #fff;
-    }
-
-    .content-card:hover {
-        background-color: #666;
-        border-color: #777;
-    }
-
-    .product-info {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-    }
-
-    .product-image {
-        width: 50px;
-        height: 50px;
-        border-radius: 8px;
-        object-fit: cover;
-    }
-
-    .no-image {
-        width: 50px;
-        height: 50px;
-        background-color: #f0f0f0;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #888;
-        font-size: 14px;
-    }
-
-    .product-name {
-        margin: 0;
-        font-size: 16px;
-        color: #fff;
-    }
-
-    .quantity {
-        font-size: 14px;
-        color: #ccc;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'products/css/detail_shipment.css' %}" />
 {% endblock %}
 
 {% block page_name %}
@@ -118,16 +24,23 @@
             <div class="shipment-status {{ shipment.status|lower|slugify }}">
                 <i class="bi bi-truck"></i>
                 {{ shipment.get_status_display }}
+                <i class="bi bi-gear-fill ms-2" data-bs-toggle="modal" data-bs-target="#updateStatusModal" style="cursor: pointer;"></i>
             </div>
         </div>
         <p>
             <i class="bi bi-person"></i>
-            <strong>Ordered by:</strong> {{ shipment.ordered_by }}
+            <strong>Ordered by:</strong>
+            {% if shipment.ordered_by == user %}
+                You
+            {% else %}
+                {{ shipment.ordered_by.full_name }}
+            {% endif %}
         </p>
         <p>
             <i class="bi bi-calendar"></i>
             <strong>Created:</strong> {{ shipment.created.date }}
         </p>
+        {% include 'products/includes/shipment_status_bar.html' %}
     </div>
 
     <div class="shipment-contents">
@@ -154,8 +67,27 @@
         {% endfor %}
     </div>
 </div>
+
+<div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateStatusModalLabel">Update Shipment Status</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'products:update_shipment' pk=shipment.pk %}">
+                    {% csrf_token %}
+                    {{ update_form.status | as_crispy_field }}
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    {% include 'products/includes/filter_common_scripts.html' %}
+{% include 'products/includes/filter_common_scripts.html' %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

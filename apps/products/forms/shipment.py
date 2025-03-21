@@ -1,5 +1,8 @@
+from django.utils.translation import gettext_lazy as _
 from django import forms
+
 from ..models import Shipment, ShipmentContents, Product
+from apps.users.models import User
 
 
 class ShipmentContentsForm(forms.ModelForm):
@@ -12,7 +15,7 @@ class ShipmentContentsForm(forms.ModelForm):
         self.fields['product'].queryset = Product.objects.all()
 
 
-class ShipmentForm(forms.ModelForm):
+class ShipmentCreateForm(forms.ModelForm):
     class Meta:
         model = Shipment
         fields = ['ordered_by', 'status']
@@ -24,3 +27,19 @@ class ShipmentForm(forms.ModelForm):
             extra=1,
             can_delete=True,
         )
+
+class ShipmentUpdateForm(forms.ModelForm):
+    status = forms.ChoiceField(
+        widget=forms.Select(
+            attrs={
+                "class": "form-control",
+                "placeholder": _("Select status"),
+            }
+        ),
+        label=_("Status"),
+        choices=Shipment.ShipmentStatus.choices,
+        required=False,
+    )
+    class Meta:
+        model = Shipment
+        fields = ['status']

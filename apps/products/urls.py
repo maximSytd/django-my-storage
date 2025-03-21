@@ -15,6 +15,7 @@ from .views import (
     ShipmentCreateView,
     ShipmentListView,
     ShipmentDetailView,
+    ShipmentUpdateView,
 )
 
 app_name = "products"
@@ -89,5 +90,10 @@ urlpatterns = [
         "shipments/<int:pk>/detail/",
         ShipmentDetailView.as_view(),
         name="detail_shipment",
+    ),
+    path(
+        "shipments/<int:pk>/update/",
+        ShipmentUpdateView.as_view(),
+        name="update_shipment",
     )
 ]

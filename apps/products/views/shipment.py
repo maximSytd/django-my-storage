@@ -1,12 +1,18 @@
 from django.views.generic import CreateView, DetailView
+from django.views.generic.edit import BaseUpdateView
 from django.forms import formset_factory
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 
 from django_filters.views import FilterView
 
 from ..models import Shipment, ShipmentContents
-from ..forms import ShipmentForm, ShipmentContentsForm
+from ..forms import (
+    ShipmentCreateForm,
+    ShipmentContentsForm,
+    ShipmentUpdateForm,
+)
 from ..filters import ShipmentFilter
 
 class ShipmentListView(LoginRequiredMixin, FilterView):
@@ -20,7 +26,7 @@ class ShipmentListView(LoginRequiredMixin, FilterView):
 
 class ShipmentCreateView(LoginRequiredMixin, CreateView):
     model = Shipment
-    form_class = ShipmentForm
+    form_class = ShipmentCreateForm
     template_name = 'products/create_shipment.html'
     success_url = reverse_lazy('products:list_shipments')
 
@@ -55,3 +61,18 @@ class ShipmentDetailView(LoginRequiredMixin, DetailView):
     template_name = "products/detail_shipment.html"
     context_object_name = "shipment"
     queryset = Shipment.objects.with_contains()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["update_form"] = ShipmentUpdateForm()
+        return context
+
+class ShipmentUpdateView(LoginRequiredMixin, BaseUpdateView):
+    model = Shipment
+    form_class = ShipmentUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "products:detail_shipment",
+            kwargs={'pk': self.object.pk},
+        )

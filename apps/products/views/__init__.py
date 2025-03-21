@@ -21,4 +21,5 @@ from .shipment import (
     ShipmentCreateView,
     ShipmentListView,
     ShipmentDetailView,
+    ShipmentUpdateView,
 )

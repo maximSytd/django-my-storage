@@ -5,3 +5,5 @@ from .shipment import Shipment
 from .employee import Employee
 from .notification import Notification
 from .shipment_contents import ShipmentContents
+from .write_off import WriteOff
+from .departure_point import DeparturePoint
