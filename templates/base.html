@@ -32,10 +32,9 @@
                 {% else %}
                     <img src="https://avatar.iran.liara.run/username?username={{ request.user.username }}&background=800000&color=FFFFFF&length=1" alt="Profile Photo" width="50" height="auto" class="img-fluid rounded-circle me-3" />
                 {% endif %}
-                <!-- Кнопка с шестеренкой -->
                 <div class="dropdown me-5">
                     <button class="btn btn-outline-light dropdown-toggle" type="button" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-gear"></i> <!-- Иконка шестеренки -->
+                        <i class="bi bi-gear"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
                         <li>
@@ -69,6 +68,9 @@
         </ul>
         <ul class="list-group mb-3">
             <a href="{% url 'products:list_shipments' %}" class="list-group-item list-group-item-action bg-transparent text-light">Shipments</a>
+        </ul>
+        <ul class="list-group mb-3">
+            <a href="{% url 'products:list_write_offs' %}" class="list-group-item list-group-item-action bg-transparent text-light">Write offs</a>
         </ul>
         <ul class="list-group mb-3">
             <a href="{% url 'products:list_suppliers' %}" class="list-group-item list-group-item-action bg-transparent text-light">Suppliers</a>

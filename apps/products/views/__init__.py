@@ -16,10 +16,17 @@ from .supplier import (
     SupplierListView,
     SupplierUpdateView,
 )
-
 from .shipment import (
     ShipmentCreateView,
     ShipmentListView,
     ShipmentDetailView,
     ShipmentUpdateView,
+)
+from .write_off import (
+    WriteOffListView,
+    WriteOffCreateView,
+    WriteOffUpdateView,
+)
+from .departure_point import (
+    DeparturePointCreateView,
 )

@@ -33,6 +33,14 @@ class ProductQueryset(QuerySet):
             total=Sum("quantity"),
         ).values("total")[:1]
 
+        writeoff_quantity_subquery = models.WriteOff.objects.filter(
+            product=OuterRef("pk"),
+        ).values(
+            "product",
+        ).annotate(
+            total=Sum("quantity"),
+        ).values("total")[:1]
+
         processing_quantity_subquery = related_subquery.exclude(
             shipment__status=models.Shipment.ShipmentStatus.ACCEPTED,
         ).values(
@@ -45,6 +53,10 @@ class ProductQueryset(QuerySet):
 
             in_storage_quantity=Coalesce(
                 Subquery(accepted_quantity_subquery),
+                0,
+                output_field=IntegerField(),
+            ) - Coalesce(
+                Subquery(writeoff_quantity_subquery),
                 0,
                 output_field=IntegerField(),
             ),

@@ -6,3 +6,5 @@ from .shipment import (
     ShipmentCreateForm,
     ShipmentUpdateForm,
 )
+from .departure_point import DeparturePointForm
+from .write_off import WriteOffForm
