@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Add Write Off{% endblock %}
+{% block title %}Create Write Off{% endblock %}
 
 {% block style %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
@@ -11,28 +11,56 @@
 
 {% block page_name %}
 <div class="w-100 d-flex justify-content-center">
-    <a class="navbar-brand mx-auto" href="#">Add New Write Off</a>
+    <a class="navbar-brand mx-auto" href="#">Create New Write Off</a>
 </div>
 {% endblock %}
 
 {% block content %}
-    <div class="content-container">
-        <form method="post" enctype="multipart/form-data">
-            {{ from.errors }}
-            {% csrf_token %}
-            {{ form.product|as_crispy_field }}
-            {{ form.quantity|as_crispy_field }}
-            {{ form.departure_point|as_crispy_field }}
-            <div class="d-flex justify-content-between mt-4">
-                <button class="btn btn-primary" type="submit">Add Write Off</button>
-                <a href="{% url 'products:create_departure_point' %}" class="btn btn-outline-secondary">
-                    <i class="bi bi-plus"></i> Create Departure Point
-                </a>
-            </div>
-        </form>
-    </div>
+<div class="content-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.departure_point|as_crispy_field }}
+
+        <div id="formset">
+            {{ contents_formset.management_form|crispy }}
+            {% for form in contents_formset %}
+                <div class="content-form" id="form-{{ forloop.counter0 }}">
+                    {{ form.product|as_crispy_field }}
+                    {{ form.quantity|as_crispy_field }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" class="btn btn-secondary" onclick="addForm()">Add Product</button>
+        <button class="btn btn-primary" type="submit">Create Write Off</button>
+    </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    {% include 'products/includes/filter_common_scripts.html' %}
+<script>
+    function addForm() {
+        console.log('Add Product button clicked!');
+        const formset = document.getElementById('formset');
+        if (!formset) {
+            console.error('Formset not found!');
+            return;
+        }
+        const totalForms = document.getElementById('id_form-TOTAL_FORMS');
+        if (!totalForms) {
+            console.error('TOTAL_FORMS input not found!');
+            return;
+        }
+        const formNum = parseInt(totalForms.value);
+
+        const lastForm = formset.querySelector('.content-form:last-child');
+        const newForm = lastForm.cloneNode(true);
+
+        const regex = new RegExp(`form-${formNum - 1}`, 'g');
+        newForm.innerHTML = newForm.innerHTML.replace(regex, `form-${formNum}`);
+        newForm.querySelectorAll('input').forEach(input => input.value = '');
+        formset.appendChild(newForm);
+        totalForms.value = formNum + 1;
+    }
+</script>
 {% endblock %}

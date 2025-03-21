@@ -18,7 +18,7 @@ from .views import (
     ShipmentUpdateView,
     WriteOffListView,
     WriteOffCreateView,
-    WriteOffUpdateView,
+    WriteOffDetailView,
     DeparturePointCreateView,
 )
 
@@ -111,9 +111,9 @@ urlpatterns = [
         name="create_write_off",
     ),
     path(
-        "write-offs/<int:pk>/update/",
-        WriteOffUpdateView.as_view(),
-        name="update_write_off",
+        "write-offs/<int:pk>/detail/",
+        WriteOffDetailView.as_view(),
+        name="detail_write_off",
     ),
     path(
         "departure-point/create",

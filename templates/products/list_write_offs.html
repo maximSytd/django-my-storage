@@ -13,37 +13,40 @@
 
 {% block page_name %}
 <div class="w-100 d-flex justify-content-center">
-    List of Write Offs
+    <a class="navbar-brand mx-auto" href="#">Write Offs</a>
 </div>
 {% endblock %}
 
 {% block content %}
-<div class="content-container">
-    <div class="d-flex justify-content-between mb-3">
+<div class="content-container p-3">
+    <div class="d-flex justify-content-between mb-1">
         <a href="{% url 'products:create_write_off' %}" class="btn btn-primary ms-auto">
             <i class="bi bi-plus"></i>
             Add
         </a>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            {% for write_off in write_offs %}
+    <div>
+        {% for write_off in write_offs %}
+        <a href="{% url 'products:detail_write_off' pk=write_off.pk %}" style="text-decoration: none; color: inherit;">
             <div class="write-off-card">
-                <div>
-                    <i class="bi bi-box-seam"></i>
-                    <span class="ms-2">{{ write_off.product.name }}</span>
-                    &nbsp;
-                    <strong>Quantity:</strong> {{ write_off.quantity }}
-                    &nbsp;
-                    <strong>Departure Point:</strong> {{ write_off.departure_point.name }}
+                <div class="write-off-header">
+                    <h6 class="write-off-name">
+                        Write Off #{{ write_off.id }}
+                    </h6>
                 </div>
-                <a href="{% url 'products:update_write_off' write_off.pk %}" class="btn btn-outline-primary edit-button">
-                    <i class="bi bi-pencil"></i> Edit
-                </a>
+                <p class="mb-1">
+                    <i class="bi bi-geo-alt"></i>
+                    <strong>Departure Point:</strong> {{ write_off.departure_point.name }}
+                </p>
+                <div class="write-off-date text-secondary">
+                    Created on {{ write_off.created.date }}
+                </div>
             </div>
-            {% endfor %}
-        </div>
+        </a>
+        {% endfor %}
     </div>
+
+    {% include 'products/includes/paginator.html' %}
 </div>
 {% endblock %}
 

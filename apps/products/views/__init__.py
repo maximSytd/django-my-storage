@@ -25,7 +25,7 @@ from .shipment import (
 from .write_off import (
     WriteOffListView,
     WriteOffCreateView,
-    WriteOffUpdateView,
+    WriteOffDetailView,
 )
 from .departure_point import (
     DeparturePointCreateView,

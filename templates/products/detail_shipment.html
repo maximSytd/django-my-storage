@@ -20,6 +20,9 @@
 <div class="content-container">
     <div class="shipment-detail">
         <div class="shipment-header">
+            <a href="{% url 'products:list_shipments' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to list
+            </a>
             <h3>Shipment #{{ shipment.id }}</h3>
             <div class="shipment-status {{ shipment.status|lower|slugify }}">
                 <i class="bi bi-truck"></i>
@@ -45,7 +48,7 @@
 
     <div class="shipment-contents">
         <h4>Contents</h4>
-        {% for content in shipment.shipment_contents.all %}
+        {% for content in shipment.all_contents %}
         <div class="content-card">
             <div class="product-info">
                 {% if content.product.picture_thumbnail %}

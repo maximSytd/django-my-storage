@@ -7,4 +7,4 @@ from .shipment import (
     ShipmentUpdateForm,
 )
 from .departure_point import DeparturePointForm
-from .write_off import WriteOffForm
+from .write_off import WriteOffForm, WriteOffContentsForm

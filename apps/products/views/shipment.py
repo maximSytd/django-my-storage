@@ -22,7 +22,7 @@ class ShipmentListView(LoginRequiredMixin, FilterView):
     filterset_class = ShipmentFilter
     template_name = "products/list_shipments.html"
     context_object_name = "shipments"
-    queryset = Shipment.objects.with_contains()
+    queryset = Shipment.objects.with_contents()
 
 class ShipmentCreateView(LoginRequiredMixin, CreateView):
     model = Shipment
@@ -60,7 +60,7 @@ class ShipmentDetailView(LoginRequiredMixin, DetailView):
     model = Shipment
     template_name = "products/detail_shipment.html"
     context_object_name = "shipment"
-    queryset = Shipment.objects.with_contains()
+    queryset = Shipment.objects.with_contents()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

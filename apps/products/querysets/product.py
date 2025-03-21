@@ -33,7 +33,7 @@ class ProductQueryset(QuerySet):
             total=Sum("quantity"),
         ).values("total")[:1]
 
-        writeoff_quantity_subquery = models.WriteOff.objects.filter(
+        writeoff_quantity_subquery = models.WriteOffContents.objects.filter(
             product=OuterRef("pk"),
         ).values(
             "product",

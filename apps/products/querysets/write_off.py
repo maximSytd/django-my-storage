@@ -13,23 +13,23 @@ from django.db.models.functions import Coalesce
 
 from .. import models
 
-class ShipmentQueryset(QuerySet):
+class WriteOffQueryset(QuerySet):
 
     def with_contents(self) -> typing.Self:
-        queryset = self.prefetch_related("ordered_by").annotate(
-            positions_count=Count('shipment_contents', distinct=True)
+        queryset = self.annotate(
+            positions_count=Count('write_off_contents', distinct=True)
         )
         queryset = queryset.prefetch_related(
             Prefetch(
-                'shipment_contents',
-                queryset=models.ShipmentContents.objects.all(),
+                'write_off_contents',
+                queryset=models.WriteOffContents.objects.all(),
                 to_attr='all_contents',
             ),
         )
-        quantity_subquery = models.ShipmentContents.objects.filter(
-            shipment=OuterRef("pk"),
+        quantity_subquery = models.WriteOffContents.objects.filter(
+            write_off=OuterRef("pk"),
         ).values(
-            "shipment",
+            "write_off",
         ).annotate(
             total=Sum("quantity"),
         ).values("total")[:1]
