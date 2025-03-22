@@ -65,6 +65,9 @@
                 <a href="{% url 'products:detail_product' pk=content.product.pk %}" class="btn btn-outline-primary">
                     <i class="bi bi-eye"></i> View Product
                 </a>
+                <a href="{% url 'products:detail_product' pk=content.product.pk %}" class="btn btn-outline-primary">
+                    <i class="bi bi-pencil"></i>
+                </a>
             </div>
         </div>
         {% endfor %}
