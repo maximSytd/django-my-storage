@@ -28,6 +28,9 @@
                 <i class="bi bi-box-seam"></i>
                 Created on {{ write_off.created.date }}
             </div>
+            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteWriteOffModal" style="padding: 6px 12px; border-radius: 4px; margin-left: 2%;">
+                <i class="bi bi-trash"></i>
+            </button>
         </div>
         <p>
             <i class="bi bi-geo-alt"></i>
@@ -50,15 +53,22 @@
                     <p class="quantity">Quantity: {{ content.quantity }}</p>
                 </div>
             </div>
-            <div>
+            <div class="actions">
                 <a href="{% url 'products:detail_product' pk=content.product.pk %}" class="btn btn-outline-primary">
-                    <i class="bi bi-eye"></i> View Product
+                    <i class="bi bi-eye"></i>
+                </a>
+                <a href="{% url 'products:update_product_activity' pk=content.pk %}" class="btn btn-outline-warning">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a href="{% url 'products:delete_product_activity' pk=content.pk %}" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
                 </a>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+{% include 'products/includes/delete_write_off_modal.html' %}
 {% endblock %}
 
 {% block scripts %}

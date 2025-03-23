@@ -1,19 +1,17 @@
 import typing
-
 from django.db.models import (
     IntegerField,
     BooleanField,
     Subquery,
     QuerySet,
     OuterRef,
-    Prefetch,
     Case,
     When,
     Sum,
     F,
 )
 from django.db.models.functions import Coalesce
-from django.contrib.postgres.aggregates import ArrayAgg
+from django.contrib.contenttypes.models import ContentType
 
 from .. import models
 
@@ -21,11 +19,12 @@ from .. import models
 class ProductQueryset(QuerySet):
 
     def with_quantity(self) -> typing.Self:
-        related_subquery = models.ShipmentContents.objects.filter(
-            product=OuterRef("pk"),
-        )
+        shipment_content_type = ContentType.objects.get_for_model(models.Shipment)
+        writeoff_content_type = ContentType.objects.get_for_model(models.WriteOff)
 
-        accepted_quantity_subquery = related_subquery.filter(
+        accepted_quantity_subquery = models.ProductActivity.objects.filter(
+            product=OuterRef("pk"),
+            content_type=shipment_content_type,
             shipment__status=models.Shipment.ShipmentStatus.ACCEPTED,
         ).values(
             "product",
@@ -33,15 +32,19 @@ class ProductQueryset(QuerySet):
             total=Sum("quantity"),
         ).values("total")[:1]
 
-        writeoff_quantity_subquery = models.WriteOffContents.objects.filter(
+        writeoff_quantity_subquery = models.ProductActivity.objects.filter(
             product=OuterRef("pk"),
+            content_type=writeoff_content_type,
         ).values(
             "product",
         ).annotate(
             total=Sum("quantity"),
         ).values("total")[:1]
 
-        processing_quantity_subquery = related_subquery.exclude(
+        processing_quantity_subquery = models.ProductActivity.objects.filter(
+            product=OuterRef("pk"),
+            content_type=shipment_content_type,
+        ).exclude(
             shipment__status=models.Shipment.ShipmentStatus.ACCEPTED,
         ).values(
             "product",
@@ -50,7 +53,6 @@ class ProductQueryset(QuerySet):
         ).values("total")[:1]
 
         return self.prefetch_related("category").annotate(
-
             in_storage_quantity=Coalesce(
                 Subquery(accepted_quantity_subquery),
                 0,

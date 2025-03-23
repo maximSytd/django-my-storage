@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django_filters import filterset
+from django.contrib.contenttypes.models import ContentType
 
 from ..models import Shipment, Product
 from apps.users.models import User
@@ -66,4 +67,9 @@ class ShipmentFilter(filterset.FilterSet):
 
     def filter_by_product(self, queryset, name, value):
         """Filter shipments by product."""
-        return queryset.filter(shipment_contents__product=value).distinct()
+        return queryset.filter(
+            product_activities__content_type=ContentType.objects.get_for_model(
+                Shipment,
+            ),
+            product_activities__product=value,
+        ).distinct()

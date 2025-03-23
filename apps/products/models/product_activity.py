@@ -1,22 +1,29 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 
 from apps.core.models import BaseModel
 
-class WriteOffContents(BaseModel):
-    """Represent write off contents in db."""
+class ProductActivity(BaseModel):
+    """Represent Product activity in db."""
 
-    write_off = models.ForeignKey(
-        to="products.WriteOff",
-        related_name="write_off_contents",
+    content_type = models.ForeignKey(
+        ContentType,
         on_delete=models.CASCADE,
-        verbose_name=_("Write off"),
+    )
+    object_id = models.PositiveIntegerField(
+        verbose_name=_("Object ID"),
+    )
+    content_object = GenericForeignKey(
+        "content_type",
+        "object_id",
     )
     product = models.ForeignKey(
         to="products.Product",
-        related_name="write_off_contents",
+        related_name="product_activities",
         on_delete=models.CASCADE,
         verbose_name=_("Product"),
     )
@@ -26,8 +33,8 @@ class WriteOffContents(BaseModel):
     )
 
     class Meta:
-        verbose_name = _("Write off contents")
-        verbose_name_plural = _("Write off contents")
+        verbose_name = _("Product activity")
+        verbose_name_plural = _("Product activities")
 
     def __str__(self) -> str:
         return f"{self.id}"

@@ -21,11 +21,17 @@ from .shipment import (
     ShipmentListView,
     ShipmentDetailView,
     ShipmentUpdateView,
+    ShipmentDeleteView,
+)
+from .product_activity import (
+    ProductActivityDeleteView,
+    ProductActivityUpdateView,
 )
 from .write_off import (
     WriteOffListView,
     WriteOffCreateView,
     WriteOffDetailView,
+    WriteOffDeleteView,
 )
 from .departure_point import (
     DeparturePointCreateView,

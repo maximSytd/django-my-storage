@@ -1,19 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 from django import forms
 
-from ..models import Shipment, ShipmentContents, Product
-from apps.users.models import User
-
-
-class ShipmentContentsForm(forms.ModelForm):
-    class Meta:
-        model = ShipmentContents
-        fields = ['product', 'quantity']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['product'].queryset = Product.objects.all()
-
+from ..models import Shipment
+from .product_activity import ProductActivity
 
 class ShipmentCreateForm(forms.ModelForm):
     class Meta:
@@ -23,7 +12,7 @@ class ShipmentCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.contents_forms = forms.formset_factory(
-            ShipmentContentsForm,
+            ProductActivity,
             extra=1,
             can_delete=True,
         )

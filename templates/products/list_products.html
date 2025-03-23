@@ -3,7 +3,6 @@
 {% load static %}
 {% load i18n %}
 
-
 {% block title %}Products{% endblock %}
 
 {% block style %}
@@ -82,8 +81,12 @@
                     <i class="bi bi-tag"></i>
                     {{ product.sku }}
                 </p>
-                {% if product.is_in_shortage %}
-                    <div class="unpaid">{% translate "Shortage" %}</div>
+                {% if product.in_storage_quantity < 0 %}
+                    <div class="unpaid">
+                        <i class="bi bi-exclamation-triangle"></i> {% translate "Negative Quantity" %}
+                    </div>
+                {% elif product.is_in_shortage %}
+                    <div class="paid">{% translate "Shortage" %}</div>
                 {% endif %}
             </div>
         </a>
@@ -93,6 +96,7 @@
     {% include 'products/includes/categories_modal.html' %}
 </div>
 {% endblock %}
+
 {% block scripts %}
     {% include 'products/includes/filter_common_scripts.html' %}
 {% endblock %}

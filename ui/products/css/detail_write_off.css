@@ -57,11 +57,37 @@
     padding: 1rem;
     margin-bottom: 0.5rem;
     color: #fff;
+    position: relative; /* Для позиционирования кнопок */
 }
 
 .content-card:hover {
     background-color: #666;
     border-color: #777;
+}
+
+.actions {
+    display: none; /* Скрываем кнопки по умолчанию */
+    gap: 8px; /* Расстояние между кнопками */
+}
+
+.content-card:hover .actions {
+    display: flex; /* Показываем кнопки при наведении */
+}
+
+.btn-outline-warning, .btn-outline-danger {
+    padding: 4px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
 }
 
 .product-info {

@@ -1,10 +1,11 @@
 from django.db import models
 
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.contenttypes.fields import GenericRelation
 
 from apps.core.models import BaseModel
 from ..querysets import WriteOffQueryset
+from .product_activity import ProductActivity
 
 class WriteOff(BaseModel):
     """Represent Write off in db."""
@@ -21,7 +22,10 @@ class WriteOff(BaseModel):
         default=True,
     )
     objects = WriteOffQueryset.as_manager()
-
+    product_activities = GenericRelation(
+        ProductActivity,
+        related_query_name='write_off',
+    )
     class Meta:
         verbose_name = _("Write off")
         verbose_name_plural = _("Write offs")

@@ -2,8 +2,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
+from django.contrib.contenttypes.models import ContentType
 
-from ..models import Product, Category, Shipment, ShipmentContents
+from ..models import Product, Category, Shipment, ProductActivity
 from ..filters import ProductFilter
 from ..forms import CategoryForm, ProductForm
 
@@ -54,18 +55,21 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "product"
     queryset = Product.objects.with_quantity()
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        shipment_content_type = ContentType.objects.get_for_model(Shipment)
+
+        product_activities = ProductActivity.objects.filter(
+            product=self.object,
+            content_type=shipment_content_type,
+        )
+        shipment_ids = product_activities.values_list('object_id', flat=True).distinct()
+
         context["categories"] = Category.objects.all()
         context["category_form"] = CategoryForm()
-        context["shipments"] = Shipment.objects.prefetch_related(
-            "ordered_by",
-        ).filter(
-            shipment_contents__in=ShipmentContents.objects.filter(
-                product=self.object,
-            ),
-        ).distinct()
+        context["shipments"] = Shipment.objects.filter(id__in=shipment_ids).prefetch_related("ordered_by")
+
         return context
 
 

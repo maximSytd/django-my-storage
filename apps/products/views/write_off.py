@@ -1,10 +1,11 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from django.contrib.contenttypes.models import ContentType
 
-from ..models import WriteOff, WriteOffContents
-from ..forms import WriteOffForm, WriteOffContentsForm
+from ..models import WriteOff, ProductActivity
+from ..forms import WriteOffForm, ProductActivityForm
 from django.forms import formset_factory
 
 class WriteOffListView(LoginRequiredMixin, ListView):
@@ -13,7 +14,6 @@ class WriteOffListView(LoginRequiredMixin, ListView):
     model = WriteOff
     template_name = "products/list_write_offs.html"
     context_object_name = "write_offs"
-
 
 
 class WriteOffCreateView(LoginRequiredMixin, CreateView):
@@ -25,9 +25,9 @@ class WriteOffCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['contents_formset'] = formset_factory(WriteOffContentsForm, extra=1)(self.request.POST)
+            context['contents_formset'] = formset_factory(ProductActivityForm, extra=1)(self.request.POST)
         else:
-            context['contents_formset'] = formset_factory(WriteOffContentsForm, extra=1)()
+            context['contents_formset'] = formset_factory(ProductActivityForm, extra=1)()
         return context
 
     def form_valid(self, form):
@@ -36,10 +36,14 @@ class WriteOffCreateView(LoginRequiredMixin, CreateView):
 
         if contents_formset.is_valid():
             self.object = form.save()
+
+            writeoff_content_type = ContentType.objects.get_for_model(WriteOff)
+
             for content_form in contents_formset:
                 if content_form.cleaned_data.get('product') and content_form.cleaned_data.get('quantity'):
-                    WriteOffContents.objects.create(
-                        write_off=self.object,
+                    ProductActivity.objects.create(
+                        content_type=writeoff_content_type,
+                        object_id=self.object.id,
                         product=content_form.cleaned_data['product'],
                         quantity=content_form.cleaned_data['quantity']
                     )
@@ -53,3 +57,7 @@ class WriteOffDetailView(LoginRequiredMixin, DetailView):
     template_name = "products/detail_write_off.html"
     context_object_name = "write_off"
     queryset = WriteOff.objects.with_contents()
+
+class WriteOffDeleteView(LoginRequiredMixin, DeleteView):
+    model = WriteOff
+    success_url = reverse_lazy("products:list_write_offs")

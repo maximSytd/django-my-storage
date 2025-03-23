@@ -4,7 +4,6 @@ from .supplier import Supplier
 from .shipment import Shipment
 from .employee import Employee
 from .notification import Notification
-from .shipment_contents import ShipmentContents
 from .write_off import WriteOff
 from .departure_point import DeparturePoint
-from .write_off_contents import WriteOffContents
+from .product_activity import ProductActivity

@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.contenttypes.fields import GenericRelation
 
 from apps.core.models import BaseModel
 from .. import querysets
+from .product_activity import ProductActivity
 
 class Shipment(BaseModel):
     """Represent Shipment in db."""
@@ -26,6 +27,10 @@ class Shipment(BaseModel):
         default=ShipmentStatus.IN_ASSEMBLY.value,
         verbose_name=_("Status"),
         max_length=16,
+    )
+    product_activities = GenericRelation(
+        ProductActivity,
+        related_query_name='shipment',
     )
 
     objects = querysets.ShipmentQueryset.as_manager()

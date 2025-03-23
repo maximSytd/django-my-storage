@@ -16,10 +16,14 @@ from .views import (
     ShipmentListView,
     ShipmentDetailView,
     ShipmentUpdateView,
+    ShipmentDeleteView,
     WriteOffListView,
     WriteOffCreateView,
     WriteOffDetailView,
+    WriteOffDeleteView,
     DeparturePointCreateView,
+    ProductActivityDeleteView,
+    ProductActivityUpdateView,
 )
 
 app_name = "products"
@@ -101,6 +105,21 @@ urlpatterns = [
         name="update_shipment",
     ),
     path(
+        "shipments/<int:pk>/delete/",
+        ShipmentDeleteView.as_view(),
+        name="delete_shipment",
+    ),
+    path(
+        "product-activity/<int:pk>/update/",
+        ProductActivityUpdateView.as_view(),
+        name="update_product_activity",
+    ),
+    path(
+        "product-activity/<int:pk>/delete/",
+        ProductActivityDeleteView.as_view(),
+        name="delete_product_activity",
+    ),
+    path(
         "write-offs/",
         WriteOffListView.as_view(),
         name="list_write_offs",
@@ -114,6 +133,11 @@ urlpatterns = [
         "write-offs/<int:pk>/detail/",
         WriteOffDetailView.as_view(),
         name="detail_write_off",
+    ),
+    path(
+        "write-offs/<int:pk>/delete/",
+        WriteOffDeleteView.as_view(),
+        name="delete_write_off",
     ),
     path(
         "departure-point/create",

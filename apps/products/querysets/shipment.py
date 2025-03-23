@@ -1,5 +1,4 @@
 import typing
-
 from django.db.models import (
     Prefetch,
     Sum,
@@ -10,29 +9,47 @@ from django.db.models import (
     IntegerField,
 )
 from django.db.models.functions import Coalesce
+from django.contrib.contenttypes.models import ContentType
 
 from .. import models
+
 
 class ShipmentQueryset(QuerySet):
 
     def with_contents(self) -> typing.Self:
+        # Получаем ContentType для модели Shipment
+        shipment_content_type = ContentType.objects.get_for_model(models.Shipment)
+
+        # Аннотируем количество позиций (ProductActivity, связанных с Shipment)
         queryset = self.prefetch_related("ordered_by").annotate(
-            positions_count=Count('shipment_contents', distinct=True)
+            positions_count=Count(
+                'product_activities',  # Используем related_name из GenericRelation
+                distinct=True,
+            )
         )
+
+        # Префетчим все ProductActivity, связанные с Shipment
         queryset = queryset.prefetch_related(
             Prefetch(
-                'shipment_contents',
-                queryset=models.ShipmentContents.objects.all(),
+                'product_activities',  # Используем related_name из GenericRelation
+                queryset=models.ProductActivity.objects.filter(
+                    content_type=shipment_content_type,
+                ),
                 to_attr='all_contents',
             ),
         )
-        quantity_subquery = models.ShipmentContents.objects.filter(
-            shipment=OuterRef("pk"),
+
+        # Подзапрос для подсчета общего количества товаров в Shipment
+        quantity_subquery = models.ProductActivity.objects.filter(
+            content_type=shipment_content_type,
+            object_id=OuterRef("pk"),  # Связь через object_id
         ).values(
-            "shipment",
+            "object_id",  # Группируем по object_id (ID Shipment)
         ).annotate(
             total=Sum("quantity"),
         ).values("total")[:1]
+
+        # Аннотируем общее количество товаров
         return queryset.annotate(
             total_products_quantity=Coalesce(
                 Subquery(quantity_subquery),

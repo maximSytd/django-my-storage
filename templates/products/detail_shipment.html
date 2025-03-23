@@ -24,10 +24,15 @@
                 <i class="bi bi-arrow-left"></i> Back to list
             </a>
             <h3>Shipment #{{ shipment.id }}</h3>
-            <div class="shipment-status {{ shipment.status|lower|slugify }}">
-                <i class="bi bi-truck"></i>
-                {{ shipment.get_status_display }}
-                <i class="bi bi-gear-fill ms-2" data-bs-toggle="modal" data-bs-target="#updateStatusModal" style="cursor: pointer;"></i>
+            <div class="shipment-status-container">
+                <div class="shipment-status {{ shipment.status|lower|slugify }}">
+                    <i class="bi bi-truck"></i>
+                    {{ shipment.get_status_display }}
+                    <i class="bi bi-gear-fill" data-bs-toggle="modal" data-bs-target="#updateStatusModal" style="cursor: pointer;"></i>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteShipmentModal" style="padding: 6px 12px; border-radius: 4px; margin-left: 2%;">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
             </div>
         </div>
         <p>
@@ -63,9 +68,9 @@
             </div>
             <div>
                 <a href="{% url 'products:detail_product' pk=content.product.pk %}" class="btn btn-outline-primary">
-                    <i class="bi bi-eye"></i> View Product
+                    <i class="bi bi-eye"></i>
                 </a>
-                <a href="{% url 'products:detail_product' pk=content.product.pk %}" class="btn btn-outline-primary">
+                <a href="{% url 'products:update_product_activity' pk=content.pk %}" class="btn btn-outline-primary">
                     <i class="bi bi-pencil"></i>
                 </a>
             </div>
@@ -91,6 +96,7 @@
         </div>
     </div>
 </div>
+{% include 'products/includes/delete_shipment_modal.html' %}
 {% endblock %}
 
 {% block scripts %}
