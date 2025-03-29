@@ -5,6 +5,7 @@ from django.db.models import (
     Subquery,
     QuerySet,
     OuterRef,
+    Prefetch,
     Case,
     When,
     Sum,
@@ -52,7 +53,13 @@ class ProductQueryset(QuerySet):
             total=Sum("quantity"),
         ).values("total")[:1]
 
-        return self.prefetch_related("category").annotate(
+        return self.prefetch_related(
+                Prefetch(
+                'product_activities',
+                    queryset=models.ProductActivity.objects.all().prefetch_related("content_type"),
+                    to_attr='all_activities',
+                ),
+            ).prefetch_related("category").annotate(
             in_storage_quantity=Coalesce(
                 Subquery(accepted_quantity_subquery),
                 0,

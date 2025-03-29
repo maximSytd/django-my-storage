@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from django.contrib.contenttypes.models import ContentType
 
-from ..models import Product, Category, Shipment, ProductActivity
+from ..models import Product, Category, Shipment, WriteOff
 from ..filters import ProductFilter
 from ..forms import CategoryForm, ProductForm
 
@@ -58,18 +58,12 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        shipment_content_type = ContentType.objects.get_for_model(Shipment)
+        context["shipment_type"] = ContentType.objects.get_for_model(Shipment)
+        context["write_off_type"] = ContentType.objects.get_for_model(WriteOff)
 
-        product_activities = ProductActivity.objects.filter(
-            product=self.object,
-            content_type=shipment_content_type,
-        )
-        shipment_ids = product_activities.values_list('object_id', flat=True).distinct()
 
         context["categories"] = Category.objects.all()
         context["category_form"] = CategoryForm()
-        context["shipments"] = Shipment.objects.filter(id__in=shipment_ids).prefetch_related("ordered_by")
-
         return context
 
 

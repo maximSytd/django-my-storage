@@ -1,10 +1,14 @@
 {% load i18n %}
 <div class="container">
     <div class="d-flex justify-content-between mb-2">
-        <h6>Shipments of this product</h6>
+        <h6>History of activity with this product</h6>
         <a href="{% url 'products:create_shipment' %}" class="btn btn-primary ms-3">
             <i class="bi bi-plus"></i>
             Order new
+        </a>
+        <a href="{% url 'products:create_write_off' %}" class="btn btn-primary ms-3">
+            <i class="bi bi-plus"></i>
+            Write off from storage
         </a>
     </div>
 
@@ -12,33 +16,42 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingPayments">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayments" aria-expanded="false" aria-controls="collapsePayments">
-                    Total ({{ shipments | length }})
+                    Total ({{ product.all_activities | length }})
                 </button>
             </h2>
             <div id="collapsePayments" class="accordion-collapse collapse" aria-labelledby="headingPayments" data-bs-parent="#paymentsAccordion">
                 <div class="accordion-body bg-secondary bg-gradient">
                     <div class="row">
-                        {% for shipment in shipments %}
+                        {% for activity in product.all_activities %}
                         <div class="col-md-12 mb-3">
-                            <a href="{% url 'products:detail_shipment' pk=shipment.pk %}" class="text-decoration-none text-reset">
+                            <a
+                                {% if activity.content_type == shipment_type %}
+                                    href="{% url 'products:detail_shipment' pk=activity.object_id %}"
+                                {% elif activity.content_type == write_off_type %}
+                                    href="{% url 'products:detail_write_off' pk=activity.object_id %}"
+                                {% endif %}
+                            class="text-decoration-none text-reset">
                                 <div class="invoice-card">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <div class="d-flex align-items-center mb-2">
                                                 <i class="bi bi-truck fs-5 me-2"></i>
-                                                <span class="fs-6"><strong>Status:</strong> {{ shipment.get_status_display }}</span>
+                                                <span class="fs-6 d-flex">
+                                                    {% if activity.content_type == shipment_type %}
+                                                    <h6 class="text-success">Supplied</h6>
+                                                    <i class="ms-1 bi bi-arrow-up"></i>
+                                                    {% elif activity.content_type == write_off_type %}
+                                                    <h6 class="text-danger">Write offed</h6>
+                                                    <i class="ms-1 bi bi-arrow-down"></i>
+                                                    {% endif %}
+                                                    <h6 class="ms-1"> {{ activity.quantity }} units</h6>
+
+                                                </span>
                                             </div>
                                             <p class="mb-1">
-                                                <i class="bi bi-person me-1"></i>
-                                                <strong>Ordered by:</strong>
-                                                {% if shipment.ordered_by == user %}
-                                                    You
-                                                {% else %}
-                                                    {{ shipment.ordered_by.full_name }}
-                                                {% endif %}
                                             </p>
                                             <p class="mb-0 text-secondary">
-                                                <strong>Created:</strong> {{ shipment.created|date:"Y-m-d H:i" }}
+                                                <strong>Created:</strong> {{ activity.created|date:"Y-m-d H:i" }}
                                             </p>
                                         </div>
                                         <div>

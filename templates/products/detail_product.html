@@ -22,7 +22,7 @@
         <div class="position-relative">
             <div class="actions">
                 <a href="{% url 'products:list_products' %}" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Back to list
+                    <i class="bi bi-arrow-left"></i> To list
                 </a>
                 <a href="{% url 'products:update_product' pk=product.pk %}" class="btn btn-warning">
                     <i class="bi bi-pencil"></i>
@@ -66,7 +66,6 @@
     </div>
 </div>
 
-<!-- Модальное окно подтверждения удаления -->
 <div class="modal fade modal-dark" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
