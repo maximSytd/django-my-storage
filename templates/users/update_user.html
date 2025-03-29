@@ -6,7 +6,7 @@
 
 {% block style %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'invoices/css/create_invoice.css' %}" />
+<link rel="stylesheet" href="{% static 'products/css/create.css' %}" />
 {% endblock %}
 
 {% block page_name %}
@@ -25,5 +25,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    {% include 'invoices/includes/form_scripts.html' %}
+    {% include 'products/includes/filter_common_scripts.html' %}
 {% endblock %}

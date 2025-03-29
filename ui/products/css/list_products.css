@@ -21,7 +21,7 @@ body {
     color: #fff;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
     position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный переход */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .invoice-card:hover {
