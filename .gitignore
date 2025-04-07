@@ -19,3 +19,6 @@ django.mo
 
 #static directory (produced by manage.py collectstatic)
 static/
+
+#db dump file
+data_dump.json

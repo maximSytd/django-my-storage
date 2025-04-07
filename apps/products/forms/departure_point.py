@@ -1,33 +1,41 @@
 from django import forms
-from django.utils.translation import gettext_lazy as _
+from django.contrib.gis.geos import Point
 
 from ..models import DeparturePoint
 
 class DeparturePointForm(forms.ModelForm):
-    """Represent departure point creation form."""
-
-    name = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": _("input name"),
-            }
-        ),
-        label=_("name"),
+    latitude = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
     )
-    address = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": _("input address"),
-            }
-        ),
-        label=_("address"),
+    longitude = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
     )
 
     class Meta:
         model = DeparturePoint
-        fields = (
-            "name",
-            "address",
-        )
+        fields = ('name', 'latitude', 'longitude')
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control w-25'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.coordinates:
+            self.initial['latitude'] = self.instance.coordinates.y
+            self.initial['longitude'] = self.instance.coordinates.x
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        lat = self.cleaned_data.get('latitude')
+        lon = self.cleaned_data.get('longitude')
+
+        if lat and lon:
+            instance.coordinates = Point(lon, lat, srid=4326)
+        elif not (lat or lon):
+            instance.coordinates = None
+
+        if commit:
+            instance.save()
+        return instance

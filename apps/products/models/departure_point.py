@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.contrib.gis.db import models as gis_models
+
 from django.utils.translation import gettext_lazy as _
 
 
@@ -13,15 +15,17 @@ class DeparturePoint(BaseModel):
         max_length=120,
         verbose_name=_("Name")
     )
-    address = models.CharField(
-        max_length=240,
-        verbose_name=_("Address")
+    coordinates = gis_models.PointField(
+        verbose_name=_("Coordinates"),
+        geography=True,
+        srid=4326,
+        null=True,
+        blank=True,
     )
-    #TODO: coordinates with postgis
 
     class Meta:
-        verbose_name = _("Write off")
-        verbose_name_plural = _("Write offs")
+        verbose_name = _("Departure point")
+        verbose_name_plural = _("Departure points")
 
     def __str__(self) -> str:
         return f"{self.name}"

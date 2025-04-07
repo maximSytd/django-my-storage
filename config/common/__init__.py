@@ -8,6 +8,7 @@ from .paths import *
 from .storage import *
 from .templates import *
 from .smtp import *
+from .geo import *
 
 APPEND_SLASH = False
 ALLOWED_HOSTS = ["*"]

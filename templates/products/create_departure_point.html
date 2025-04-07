@@ -1,33 +1,80 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
 
-{% block title %}Add Departure Point{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <form method="post" id="departure-form">
+        {% csrf_token %}
+        {{ form.name|as_crispy_field }}
 
-{% block style %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'products/css/create.css' %}" />
-{% endblock %}
-
-{% block page_name %}
-<div class="w-100 d-flex justify-content-center">
-    <a class="navbar-brand mx-auto" href="#">Add New Departure Point</a>
+        <div class="form-group">
+            <label>Select a location on the map</label>
+            <div id="map" style="width: 100%; height: 400px; margin: 10px 0;"></div>
+            <div class="text-muted" id="coordinates-display">
+                {% if form.instance.coordinates %}
+                    Current: {{ form.instance.coordinates.y|floatformat:6 }}, {{ form.instance.coordinates.x|floatformat:6 }}
+                {% else %}
+                    Coordinates are not selected
+                {% endif %}
+            </div>
+        </div>
+        {{ form.latitude | as_crispy_field }}
+        {{ form.longitude | as_crispy_field }}
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
 </div>
 {% endblock %}
 
-{% block content %}
-    <div class="content-container">
-        <form method="post" enctype="multipart/form-data">
-            {{ from.errors }}
-            {% csrf_token %}
-            {{ form.name|as_crispy_field }}
-            {{ form.address|as_crispy_field }}
-            <button class="btn btn-primary" type="submit">Add
-            </button>
-        </form>
-    </div>
-{% endblock %}
-
 {% block scripts %}
-    {% include 'products/includes/filter_common_scripts.html' %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Инициализация карты
+        var map = L.map('map').setView([55.7512, 37.6178], 10);
+        
+        // Добавляем слой с OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        var marker;
+        
+        // Если есть начальные координаты, устанавливаем маркер
+        {% if form.instance.coordinates %}
+            var initialCoords = [{{ form.instance.coordinates.y }}, {{ form.instance.coordinates.x }}];
+            marker = L.marker(initialCoords, {draggable: true}).addTo(map);
+            map.setView(initialCoords, 15);
+            updateCoordinates(initialCoords);
+        {% endif %}
+        map.on('click', function(e) {
+            var coords = [e.latlng.lat, e.latlng.lng];
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng, {draggable: true}).addTo(map);
+                
+                marker.on('dragend', function() {
+                    var newCoords = [marker.getLatLng().lat, marker.getLatLng().lng];
+                    updateCoordinates(newCoords);
+                });
+            }
+            updateCoordinates(coords);
+        });
+        
+        function updateCoordinates(coords) {
+            alert(coords)
+            document.getElementById('id_latitude').value = coords[0];
+            document.getElementById('id_longitude').value = coords[1];
+            document.getElementById('coordinates-display').textContent =
+                'Текущие координаты: ' + coords[0].toFixed(6) + ', ' + coords[1].toFixed(6);
+        }
+    });
+</script>
 {% endblock %}

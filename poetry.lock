@@ -186,6 +186,24 @@ async-dramatiq = ["django-dramatiq (>=0.4.0)"]
 async-rq = ["django-rq (>=0.6.0)"]
 
 [[package]]
+name = "django-leaflet"
+version = "0.31.0"
+description = "Use Leaflet in your django projects"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "django_leaflet-0.31.0-py3-none-any.whl", hash = "sha256:914d973a30730eafec4cd822e7107bbd71a6d2e0106b6e919fd9eea67bbcbc5c"},
+    {file = "django_leaflet-0.31.0.tar.gz", hash = "sha256:fb2b75f84aff60d4058659300f31a711554c65d128bade5fa8088637fb0751f7"},
+]
+
+[package.dependencies]
+Django = "*"
+
+[package.extras]
+docs = ["sphinx", "sphinx-autobuild"]
+
+[[package]]
 name = "django-otp"
 version = "1.5.4"
 description = "A pluggable framework for adding two-factor authentication to Django using one-time passwords."
@@ -668,4 +686,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "f3d0c9bcab49d99d15c0738b8d4f9fc0914d2588b42560956b353b606b0e96b3"
+content-hash = "7685594afafbd897e5406341dbf220b9abb962d1ae611d9ab96ea27d12bcacfc"

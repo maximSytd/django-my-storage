@@ -140,7 +140,7 @@ urlpatterns = [
         name="delete_write_off",
     ),
     path(
-        "departure-point/create",
+        "departure-point/create/",
         DeparturePointCreateView.as_view(),
         name="create_departure_point",
     ),

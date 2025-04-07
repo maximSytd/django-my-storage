@@ -2,7 +2,7 @@ import os
 
 from .paths import BASE_DIR
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = "Europe/Moscow"
 
