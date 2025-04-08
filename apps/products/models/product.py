@@ -26,10 +26,23 @@ class Product(BaseModel):
         validators=[MinValueValidator(1), MaxValueValidator(10000000)],
         default=15,
         verbose_name=_("Minimal quantity"),
+        null=True,
+        blank=True,
+    )
+    to_notify = models.BooleanField(
+        default=False,
+        verbose_name=_("To notify"),
+        help_text=_(
+            (
+                "Indicates the need for notification when the quantity on "
+                "storage beyond than minimal"
+            ),
+        ),
     )
     sku = models.CharField(
         max_length=120,
         verbose_name=_("Sku"),
+        unique=True,
     )
     category = models.ForeignKey(
         to="products.Category",
