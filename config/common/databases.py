@@ -1,12 +1,12 @@
-import os
+import decouple
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('POSTGRES_DB', 'mydatabase'),
-        'USER': os.getenv('POSTGRES_USER', 'myuser'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'mypassword'),
-        'HOST': os.getenv('POSTGRES_HOST', 'postgres'),
-        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        'NAME': decouple.config('POSTGRES_DB'),
+        'USER': decouple.config('POSTGRES_USER'),
+        'PASSWORD': decouple.config('POSTGRES_PASSWORD'),
+        'HOST': decouple.config('POSTGRES_HOST'),
+        'PORT': decouple.config('POSTGRES_PORT', cast=int),
     }
 }

@@ -1,4 +1,3 @@
-from .env_values import config
 from .authentication import *
 from .databases import *
 from .installed_apps import *

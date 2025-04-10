@@ -3,11 +3,13 @@ import decouple
 from .common import *
 
 
-SECRET_KEY = config.get("DJANGO_SECRET")
+SECRET_KEY = decouple.config("DJANGO_SECRET")
 
-DEBUG = bool(config.get("DEBUG"))
+DEBUG = decouple.config("DEBUG", cast=bool)
 
-INTERNAL_IPS = ["127.0.0.1"]
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 APP_LABEL = "My storage"
 
