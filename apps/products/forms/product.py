@@ -63,6 +63,14 @@ class ProductForm(forms.ModelForm):
         ),
         label=_("supplier"),
     )
+    to_notify = forms.BooleanField(
+        widget=forms.CheckboxInput(
+            attrs={
+                "class": "form-control",
+            },
+        ),
+        label=_("to notify"),
+    )
 
     class Meta:
         model = Product
@@ -73,4 +81,5 @@ class ProductForm(forms.ModelForm):
             "min_quantity",
             "picture",
             "supplier",
+            "to_notify",
         )

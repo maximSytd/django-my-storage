@@ -21,6 +21,9 @@ fastapi = "^0.115.5"
 phonenumberslite = "^8.13.50"
 psycopg2-binary = "^2.9.10"
 django-leaflet = "^0.31.0"
+celery = "^5.5.1"
+django-redis = "^5.4.0"
+python-decouple = "^3.8"
 
 
 [build-system]

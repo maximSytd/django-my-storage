@@ -8,6 +8,7 @@ from ..models import Product, Category, Shipment, WriteOff
 from ..filters import ProductFilter
 from ..forms import CategoryForm, ProductForm
 
+
 class ProductListView(LoginRequiredMixin, FilterView):
     model = Product
     template_name = "products/list_products.html"
@@ -60,8 +61,6 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 
         context["shipment_type"] = ContentType.objects.get_for_model(Shipment)
         context["write_off_type"] = ContentType.objects.get_for_model(WriteOff)
-
-
         context["categories"] = Category.objects.all()
         context["category_form"] = CategoryForm()
         return context

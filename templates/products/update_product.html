@@ -36,6 +36,7 @@
                 {% endif %}
             </div>
             {{ form.min_quantity|as_crispy_field }}
+            {{ form.to_notify|as_crispy_field }}
             {{ form.sku|as_crispy_field }}
             {{ form.picture|as_crispy_field }}
             <div class="d-flex justify-content-between">
