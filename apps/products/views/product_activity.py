@@ -10,7 +10,7 @@ class ProductActivityUpdateView(LoginRequiredMixin, UpdateView):
     model = ProductActivity
     form_class = ProductActivityForm
     template_name = "products/update_product_activity.html"
-    context_object_name = "shipment_content"
+    context_object_name = "product_activity"
     success_url = reverse_lazy("products:list_products")
 
     def get_context_data(self, **kwargs):
@@ -21,5 +21,4 @@ class ProductActivityUpdateView(LoginRequiredMixin, UpdateView):
 
 class ProductActivityDeleteView(LoginRequiredMixin, DeleteView):
     model = ProductActivity
-    form_class = ProductActivityForm
     success_url = reverse_lazy("products:list_products")

@@ -3,21 +3,11 @@ from django.utils.translation import gettext_lazy as _
 
 from django_filters import filterset
 
-from ..models import Product, Category
+from ..models import Product, Category, Supplier
 
 
 class ProductFilter(filterset.FilterSet):
     """Represent filter of products list."""
-
-    id = filterset.NumberFilter(
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder": "input id",
-            }
-        ),
-        label="id",
-    )
-
     name = filterset.CharFilter(
         widget=forms.TextInput(
             attrs={
@@ -40,11 +30,22 @@ class ProductFilter(filterset.FilterSet):
         queryset=Category.objects.all(),
         widget=forms.Select(
             attrs={
-                "class": "select2 form-select",
+                "class": "select2 form-select mw-25",
                 "data-placeholder": _("Choice category"),
             },
         ),
         label=_("category"),
+        required=False,
+    )
+    supplier = filterset.ModelChoiceFilter(
+        queryset=Supplier.objects.all(),
+        widget=forms.Select(
+            attrs={
+                "class": "select2 form-select mw-25",
+                "data-placeholder": _("Choice supplier"),
+            },
+        ),
+        label=_("supplier"),
         required=False,
     )
 
@@ -52,8 +53,8 @@ class ProductFilter(filterset.FilterSet):
     class Meta:
         model = Product
         fields = (
-            "id",
             "name",
             "sku",
             "category",
+            "supplier",
         )

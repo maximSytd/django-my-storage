@@ -2,14 +2,16 @@
 <div class="container">
     <div class="d-flex justify-content-between mb-2">
         <h6>History of activity with this product</h6>
-        <a href="{% url 'products:create_shipment' %}" class="btn btn-primary ms-3">
-            <i class="bi bi-plus"></i>
-            Order new batch
-        </a>
-        <a href="{% url 'products:create_write_off' %}" class="btn btn-primary ms-3">
-            <i class="bi bi-plus"></i>
-            Write off from storage
-        </a>
+        <div>
+            <a href="{% url 'products:create_shipment' %}" class="btn btn-primary ms-3">
+                <i class="bi bi-plus"></i>
+                Order new batch
+            </a>
+            <a href="{% url 'products:create_write_off' %}" class="btn btn-primary ms-3">
+                <i class="bi bi-plus"></i>
+                Write off from storage
+            </a>
+        </div>
     </div>
 
     <div class="accordion" id="paymentsAccordion">
@@ -63,7 +65,7 @@
                         </div>
                         {% empty %}
                         <div class="col-md-12">
-                            <p class="text-center">No shipments yet.</p>
+                            <p class="text-center">No activity yet.</p>
                         </div>
                         {% endfor %}
                     </div>

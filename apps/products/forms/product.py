@@ -10,7 +10,7 @@ class ProductForm(forms.ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "form-control",
+                "class": "form-control w-25",
                 "placeholder": _("input name"),
             }
         ),
@@ -19,7 +19,7 @@ class ProductForm(forms.ModelForm):
     sku = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "form-control",
+                "class": "form-control w-25",
                 "placeholder": _("input sku"),
             }
         ),
@@ -29,7 +29,7 @@ class ProductForm(forms.ModelForm):
         queryset=Category.objects.all(),
         widget=forms.Select(
             attrs={
-                "class": "select2 form-select",
+                "class": "select2 form-select w-50",
                 "data-placeholder": _("Choice category"),
             },
         ),
@@ -39,7 +39,7 @@ class ProductForm(forms.ModelForm):
     min_quantity = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
-                "class": "form-control",
+                "class": "form-control w-25",
                 "placeholder": _("input min quantity"),
             }
         ),
@@ -47,7 +47,10 @@ class ProductForm(forms.ModelForm):
     )
     picture = forms.ImageField(
         widget=forms.FileInput(
-            attrs={'accept': 'image/*'},
+            attrs={
+                "class": "w-50",
+                'accept': 'image/*',
+            },
         ),
         allow_empty_file=False,
         validators=[validate_image_size],
@@ -57,7 +60,7 @@ class ProductForm(forms.ModelForm):
         queryset=Supplier.objects.all(),
         widget=forms.Select(
             attrs={
-                "class": "select2 form-select",
+                "class": "select2 form-select w-25",
                 "data-placeholder": _("Choice supplier"),
             },
         ),
@@ -66,10 +69,10 @@ class ProductForm(forms.ModelForm):
     to_notify = forms.BooleanField(
         widget=forms.CheckboxInput(
             attrs={
-                "class": "form-control",
+                "class": "form-check me-2",
             },
         ),
-        label=_("to notify"),
+        label=_("notify manager via email when product is in shortage"),
     )
 
     class Meta:

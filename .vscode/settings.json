@@ -7,6 +7,7 @@
         "imagekitmodels",
         "pyotp",
         "qrcode",
+        "REFERER",
         "totp",
         "uidb"
     ],

@@ -44,7 +44,11 @@
     </div>
 
     <div class="write-off-contents">
-        <h4>Listed in write off:</h4>
+        {% if write_off.all_contents %}
+            <h5>Listed in write off:</h5>
+        {% else %}
+            <h5>Write off is empty</h5>
+        {% endif %}
         {% for content in write_off.all_contents %}
         <div class="content-card">
             <div class="product-info">
@@ -64,9 +68,6 @@
                 </a>
                 <a href="{% url 'products:update_product_activity' pk=content.pk %}" class="btn btn-outline-warning">
                     <i class="bi bi-pencil"></i>
-                </a>
-                <a href="{% url 'products:delete_product_activity' pk=content.pk %}" class="btn btn-outline-danger">
-                    <i class="bi bi-trash"></i>
                 </a>
             </div>
         </div>

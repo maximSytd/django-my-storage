@@ -6,8 +6,25 @@
 <script>
     $(document).ready(function() {
         $('.select2').select2({
-            placeholder: "Выберите вариант",
+            placeholder: function() {
+                return $(this).data('placeholder') || "Выберите вариант";
+            },
             allowClear: true,
+            width: '100%',
+            dropdownAutoWidth: true,
+            minimumResultsForSearch: 10,
+            dropdownParent: $(this).closest('.modal').length ? $(this).closest('.modal') : document.body,
+            language: {
+                noResults: function() {
+                    return "Ничего не найдено";
+                }
+            }
         });
+        $(document).on('select2:open', function(e) {
+    let searchField = e.target.parentElement.querySelector('.select2-search__field');
+    if (searchField) {
+        searchField.focus();
+    }
+});
     });
     </script>

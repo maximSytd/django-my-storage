@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Обновление накладной{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block style %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
@@ -11,7 +11,7 @@
 
 {% block page_name %}
 <div class="w-100 d-flex justify-content-center">
-    <a class="navbar-brand mx-auto" href="#">Обновление накладной</a>
+    <a class="navbar-brand mx-auto" href="#">Update product</a>
 </div>
 {% endblock %}
 
@@ -41,7 +41,7 @@
             {{ form.picture|as_crispy_field }}
             <div class="d-flex justify-content-between">
                 <a href="{% url 'products:detail_product' pk=product.pk %}" class="btn btn-secondary">Back</a>
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" type="submit">Done</button>
             </div>
         </form>
     </div>

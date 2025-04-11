@@ -1,0 +1,290 @@
+.document-tile {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.document-tile:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.document-content {
+    padding: 20px;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+.info-container {
+    border-radius: 5px;
+    background-color: rgb(63, 63, 63);
+    padding: 10px;
+    width: auto;
+    margin-top: 5%;
+}
+
+.product-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.no-image {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+    padding: 1%;
+}
+
+body {
+    background-color: #2a2a2a;
+    font-size: 1rem;
+    color: #ffffff;
+}
+.navbar {
+    background-color: #1f1f1f;
+}
+.content-container {
+    max-width: 60%;
+    margin: auto;
+    padding: 0.5rem;
+    background-color: #333;
+    border-radius: 10px;
+    margin-top: 1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.offcanvas {
+    background-color: #444;
+    color: #ffffff;
+}
+.invoice-card {
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: #fff;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный переход */
+}
+
+.invoice-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #555;
+    border-color: #666;
+}
+.payment-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+}
+.paid, .unpaid {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+}
+.unpaid {
+    background-color: #dc3545;
+}
+.overdue {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    background-color: #ff9800;
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+    transform: translateY(-50%);
+}
+.search-form {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+.select2-results {
+    color: black;
+}
+#div_id_supplier {
+display: block;
+}
+
+#div_id_supplier label,
+#div_id_supplier .select2 {
+    display: block;
+    width: 100%;
+}
+.custom-link {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+.small-icon {
+    font-size: 0.2rem;
+}
+
+
+.product-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1%;
+}
+
+
+/* Flex-контейнер для выравнивания */
+.info-container .d-flex {
+    display: flex;
+    gap: 20px; /* Отступ между блоками */
+}
+
+/* Блок с характеристиками */
+.product-details {
+    flex: 1; /* Занимает всё доступное пространство */
+}
+
+/* Блок с изображением */
+.product-image-container {
+    flex: 0 0 auto; /* Не растягивается, занимает столько места, сколько нужно */
+    width: 200px; /* Фиксированная ширина для изображения (можно изменить) */
+    display: flex;
+    align-items: flex-start; /* Выравниваем изображение по верхнему краю */
+    margin-left: auto;
+}
+
+
+.category-link {
+    margin-left: 2%;
+    display: inline-block; /* Чтобы рамка работала корректно */
+    padding: 4px 8px; /* Внутренние отступы */
+    border: 2px solid #8a2be2; /* Фиолетовая рамка */
+    border-radius: 8px; /* Закруглённые края */
+    color: #8a2be2; /* Фиолетовый цвет текста */
+    text-decoration: none; /* Убираем подчёркивание */
+    font-weight: bold; /* Жирный текст */
+    transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+}
+
+.category-link:hover {
+    background-color: #8a2be2;
+    color: white;
+}
+
+.modal-dark .modal-content {
+    background-color: #333;
+    color: #fff;
+}
+.modal-dark .modal-header {
+    border-bottom: 1px solid #444;
+}
+.modal-dark .modal-footer {
+    border-top: 1px solid #444;
+}
+.modal-dark .btn-close {
+    filter: invert(1);
+}
+.modal-dark .btn-secondary {
+    background-color: #555;
+    border-color: #555;
+}
+.modal-dark .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.invoice-card {
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    color: #fff;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.invoice-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #555;
+    border-color: #666;
+}
+
+.invoice-card .fs-6 {
+    font-size: 1rem;
+}
+
+.invoice-card .fs-5 {
+    font-size: 1.25rem;
+}
+
+.invoice-card .text-secondary {
+    color: #aaa !important;
+}
+
+.invoice-card .bi {
+    color: #ccc;
+}
+
+.invoice-card .bi-chevron-right {
+    color: #fff;
+}
+
+.tab-content {
+    padding: 20px;
+    border-top: none;
+    border-radius: 0 0 0.25rem 0.25rem;
+    min-height: 200px;
+}
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+.product-image-container {
+    width: 200px;
+    margin-left: 30px;
+}
+.product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+}
+.product-details {
+    flex: 1;
+}
+.tab-content-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+@media (max-width: 768px) {
+    .tab-content-wrapper {
+        flex-direction: column;
+    }
+    .product-image-container {
+        margin-left: 0;
+        margin-top: 20px;
+        width: 100%;
+    }
+}
