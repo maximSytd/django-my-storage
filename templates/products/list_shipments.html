@@ -19,11 +19,8 @@
 {% block content %}
 <div class="content-container p-3">
     <form class="search-form">
-        <div class="row g-3">
+        <div class="row g-3 justify-content-between">
             {% csrf_token %}
-            <div class="col-md-3">
-                {{ filter.form.id|as_crispy_field }}
-            </div>
             <div class="col-md-3">
                 {{ filter.form.product|as_crispy_field }}
             </div>
@@ -35,50 +32,54 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-12">
-                <button type="submit" class="btn btn-primary">
+            <div class="d-flex justify-content-between col-md-12">
+                <button type="submit" class="btn btn-primary ms-auto">
                     <i class="bi bi-search"></i> Find
                 </button>
             </div>
         </div>
     </form>
-    <div class="d-flex justify-content-between mb-1">
-        <a href="{% url 'products:create_shipment' %}" class="btn btn-primary ms-auto">
+    <div class="mb-1">
+        <a href="{% url 'products:create_shipment' %}" class="btn btn-primary">
             <i class="bi bi-plus"></i>
             Add
         </a>
     </div>
     <div>
-        {% for shipment in shipments %}
-        <a href="{% url 'products:detail_shipment' pk=shipment.pk %}" style="text-decoration: none; color: inherit;">
-            <div class="shipment-card">
-                <div class="shipment-status {{ shipment.status|lower|slugify }}">
-                    <i class="bi bi-truck"></i>
-                    {{ shipment.get_status_display }}
+        {% if shipments %}
+            {% for shipment in shipments %}
+            <a href="{% url 'products:detail_shipment' pk=shipment.pk %}" style="text-decoration: none; color: inherit;">
+                <div class="shipment-card">
+                    <div class="shipment-status {{ shipment.status|lower|slugify }}">
+                        <i class="bi bi-truck"></i>
+                        {{ shipment.get_status_display }}
+                    </div>
+                    <div class="product-header">
+                        <h6 class="shipment-name">
+                            Shipment #{{ shipment.id }}
+                        </h6>
+                    </div>
+                    <p class="mb-1">
+                        <i class="bi bi-person"></i>
+                        Ordered by: {{ shipment.ordered_by }}
+                    </p>
+                    <p class="mb-1">
+                        <i class="bi bi-box"></i>
+                        Total products quantity: {{ shipment.total_products_quantity }}
+                    </p>
+                    <p class="mb-1">
+                        <i class="bi bi-list-ul"></i>
+                        Positions amount: {{ shipment.positions_count }}
+                    </p>
+                    <div class="shipment-date text-secondary">
+                        Shipment from {{ shipment.created.date }}
+                    </div>
                 </div>
-                <div class="product-header">
-                    <h6 class="shipment-name">
-                        Shipment #{{ shipment.id }}
-                    </h6>
-                </div>
-                <p class="mb-1">
-                    <i class="bi bi-person"></i>
-                    Ordered by: {{ shipment.ordered_by }}
-                </p>
-                <p class="mb-1">
-                    <i class="bi bi-box"></i>
-                    Total products quantity: {{ shipment.total_products_quantity }}
-                </p>
-                <p class="mb-1">
-                    <i class="bi bi-list-ul"></i>
-                    Positions amount: {{ shipment.positions_count }}
-                </p>
-                <div class="shipment-date text-secondary">
-                    Shipment from {{ shipment.created.date }}
-                </div>
-            </div>
-        </a>
-        {% endfor %}
+            </a>
+            {% endfor %}
+        {% else %}
+            <h4> No available shipments</h4>
+        {% endif %}
     </div>
     {% include 'products/includes/paginator.html' %}
 </div>

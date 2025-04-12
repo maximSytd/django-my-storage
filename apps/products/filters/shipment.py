@@ -9,16 +9,6 @@ from apps.users.models import User
 class ShipmentFilter(filterset.FilterSet):
     """Represent filter of shipments list."""
 
-    id = filterset.NumberFilter(
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder": _("input id"),
-                "class": "h-50",
-            }
-        ),
-        label=_("id"),
-    )
-
     ordered_by = filterset.ModelChoiceFilter(
         queryset=User.objects.all(),
         widget=forms.Select(
@@ -59,7 +49,6 @@ class ShipmentFilter(filterset.FilterSet):
     class Meta:
         model = Shipment
         fields = (
-            "id",
             "ordered_by",
             "status",
             "product",

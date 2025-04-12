@@ -16,6 +16,7 @@ class ProductFilter(filterset.FilterSet):
             }
         ),
         label=_("name"),
+        lookup_expr="icontains",
     )
     sku = filterset.CharFilter(
         widget=forms.TextInput(
@@ -25,6 +26,7 @@ class ProductFilter(filterset.FilterSet):
             }
         ),
         label=_("sku"),
+        lookup_expr="icontains",
     )
     category = filterset.ModelChoiceFilter(
         queryset=Category.objects.all(),

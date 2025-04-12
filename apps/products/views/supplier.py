@@ -3,8 +3,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
+from django_filters.views import FilterView
+
 from ..models import Supplier
 from ..forms import SupplierForm
+from ..filters import SupplierFilter
 
 
 class SupplierCreateView(LoginRequiredMixin, CreateView):
@@ -23,12 +26,13 @@ class SupplierUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("products:list_suppliers")
 
 
-class SupplierListView(LoginRequiredMixin, ListView):
+class SupplierListView(LoginRequiredMixin, FilterView):
     """Suppliers list class-based view."""
 
     model = Supplier
     template_name = "products/list_suppliers.html"
     context_object_name = "suppliers"
+    filterset_class = SupplierFilter
 
 
 class SupplierDeleteView(LoginRequiredMixin, DeleteView):
