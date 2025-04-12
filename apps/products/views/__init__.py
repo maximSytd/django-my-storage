@@ -15,6 +15,7 @@ from .supplier import (
     SupplierCreateView,
     SupplierListView,
     SupplierUpdateView,
+    SupplierDeleteView,
 )
 from .shipment import (
     ShipmentCreateView,
