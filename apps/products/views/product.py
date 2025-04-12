@@ -14,10 +14,12 @@ class ProductListView(LoginRequiredMixin, FilterView):
     template_name = "products/list_products.html"
     filterset_class = ProductFilter
     context_object_name = "products"
-    queryset = Product.objects.with_quantity().order_by("created")
+    queryset = Product.objects.with_quantity().order_by("category")
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['filtered_count'] = self.object_list.count()
         context["category_form"] = CategoryForm()
         context["categories"] = Category.objects.all()
         return context
