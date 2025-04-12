@@ -23,8 +23,11 @@ from .views import (
     WriteOffDetailView,
     WriteOffDeleteView,
     DeparturePointCreateView,
+    DeparturePointListView,
+    DeparturePointUpdateView,
     ProductActivityDeleteView,
     ProductActivityUpdateView,
+    DeparturePointDeleteView,
 )
 
 app_name = "products"
@@ -146,8 +149,23 @@ urlpatterns = [
         name="delete_write_off",
     ),
     path(
-        "departure-point/create/",
+        "departure-points/create/",
         DeparturePointCreateView.as_view(),
         name="create_departure_point",
     ),
+    path(
+        "departure-points/",
+        DeparturePointListView.as_view(),
+        name="list_departure_points",
+    ),
+    path(
+        "departure-points/<int:pk>/update/",
+        DeparturePointUpdateView.as_view(),
+        name="update_departure_point",
+    ),
+    path(
+        "departure-points/<int:pk>/delete/",
+        DeparturePointDeleteView.as_view(),
+        name="delete_departure_point",
+    )
 ]

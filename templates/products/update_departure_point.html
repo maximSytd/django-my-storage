@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Add departure point{% endblock %}
+{% block title %}Update departure point{% endblock %}
 
 {% block style %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
@@ -11,12 +11,12 @@
 
 {% block page_name %}
 <div class="w-100 d-flex justify-content-center">
-    <a class="navbar-brand mx-auto" href="#">Add departure point</a>
+    <a class="navbar-brand mx-auto" href="#">Update departure point</a>
 </div>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="content-container">
     <form method="post" id="departure-form">
         {% csrf_token %}
         {{ form.name|as_crispy_field }}
@@ -34,7 +34,8 @@
         </div>
         {{ form.latitude | as_crispy_field }}
         {{ form.longitude | as_crispy_field }}
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary me-2">Save</button>
+        <a href="{% url 'products:list_departure_points' %}" class="btn btn-secondary me-2">Back</a>
     </form>
 </div>
 {% endblock %}
@@ -50,16 +51,20 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Инициализация карты
-        var map = L.map('map').setView([55.7512, 37.6178], 10);
-        
-        // Добавляем слой с OpenStreetMap
+        const coordY = "{{ departure_point.coordinates.y }}".replace(',', '.');
+        const coordX = "{{ departure_point.coordinates.x }}".replace(',', '.');
+        const coords = [
+            parseFloat(coordY),
+            parseFloat(coordX),
+        ];
+        var map = L.map('map').setView(coords, 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        
         var marker;
-        
+        L.marker(coords).addTo(map)
+                        .bindPopup("{{ departure_point.name|escapejs }}")
+                        .openPopup();
         // Если есть начальные координаты, устанавливаем маркер
         {% if form.instance.coordinates %}
             var initialCoords = [{{ form.instance.coordinates.y }}, {{ form.instance.coordinates.x }}];

@@ -36,4 +36,7 @@ from .write_off import (
 )
 from .departure_point import (
     DeparturePointCreateView,
+    DeparturePointListView,
+    DeparturePointUpdateView,
+    DeparturePointDeleteView,
 )

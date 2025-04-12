@@ -13,8 +13,9 @@ class WriteOff(BaseModel):
     departure_point = models.ForeignKey(
         to="products.DeparturePoint",
         related_name="write_offs",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name=_("Departure point"),
+        null=True,
     )
     is_manual = models.BooleanField(
         verbose_name=_("Is manual"),

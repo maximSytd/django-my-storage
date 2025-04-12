@@ -1,17 +1,17 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, DeleteView
 
 from ..models import DeparturePoint
 from ..forms import DeparturePointForm
 
-# class WriteOffListView(LoginRequiredMixin, ListView):
-#     """WriteOff list class-based view."""
+class DeparturePointListView(LoginRequiredMixin, ListView):
+    """DeparturePoint list class-based view."""
 
-#     model = WriteOff
-#     template_name = "products/list_write_offs.html"
-#     context_object_name = "write_offs"
+    model = DeparturePoint
+    template_name = "products/list_departure_points.html"
+    context_object_name = "departure_points"
 
 
 class DeparturePointCreateView(LoginRequiredMixin, CreateView):
@@ -20,11 +20,17 @@ class DeparturePointCreateView(LoginRequiredMixin, CreateView):
     model = DeparturePoint
     template_name = "products/create_departure_point.html"
     form_class = DeparturePointForm
-    success_url = reverse_lazy("products:list_write_offs")
+    success_url = reverse_lazy("products:list_departure_points")
 
 
-# class SupplierUpdateView(LoginRequiredMixin, UpdateView):
-#     model = Supplier
-#     template_name = "products/update_supplier.html"
-#     form_class = SupplierForm
-#     success_url = reverse_lazy("products:list_suppliers")
+class DeparturePointUpdateView(LoginRequiredMixin, UpdateView):
+    model = DeparturePoint
+    template_name = "products/update_departure_point.html"
+    form_class = DeparturePointForm
+    context_object_name = "departure_point"
+    success_url = reverse_lazy("products:list_departure_points")
+
+
+class DeparturePointDeleteView(LoginRequiredMixin, DeleteView):
+    model = DeparturePoint
+    success_url = reverse_lazy("products:list_departure_points")
