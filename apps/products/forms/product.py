@@ -73,6 +73,7 @@ class ProductForm(forms.ModelForm):
             },
         ),
         label=_("notify manager via email when product is in shortage"),
+        required=False,
     )
 
     class Meta:

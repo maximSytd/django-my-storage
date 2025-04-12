@@ -14,7 +14,7 @@ class ProductListView(LoginRequiredMixin, FilterView):
     template_name = "products/list_products.html"
     filterset_class = ProductFilter
     context_object_name = "products"
-    queryset = Product.objects.with_quantity()
+    queryset = Product.objects.with_quantity().order_by("created")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

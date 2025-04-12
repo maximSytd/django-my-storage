@@ -20,30 +20,35 @@
 {% block content %}
 <div class="content-container p-3">
     <div class="d-flex justify-content-between mb-1">
-        <a href="{% url 'products:create_write_off' %}" class="btn btn-primary ms-auto">
+        {% if not write_offs %}
+            <h4 class="mb-0">No available write offs</h4>
+        {% endif %}
+        <a href="{% url 'products:create_write_off' %}" class="btn btn-primary ms-auto mb-2">
             <i class="bi bi-plus"></i>
             Add
         </a>
     </div>
     <div>
-        {% for write_off in write_offs %}
-        <a href="{% url 'products:detail_write_off' pk=write_off.pk %}" style="text-decoration: none; color: inherit;">
-            <div class="write-off-card">
-                <div class="write-off-header">
-                    <h6 class="write-off-name">
-                        Write Off #{{ write_off.id }}
-                    </h6>
+        {% if write_offs %}
+            {% for write_off in write_offs %}
+            <a href="{% url 'products:detail_write_off' pk=write_off.pk %}" style="text-decoration: none; color: inherit;">
+                <div class="write-off-card">
+                    <div class="write-off-header">
+                        <h6 class="write-off-name">
+                            Write Off #{{ write_off.id }}
+                        </h6>
+                    </div>
+                    <p class="mb-1">
+                        <i class="bi bi-geo-alt"></i>
+                        <strong>Departure Point:</strong> {{ write_off.departure_point.name }}
+                    </p>
+                    <div class="write-off-date text-secondary">
+                        Created on {{ write_off.created.date }}
+                    </div>
                 </div>
-                <p class="mb-1">
-                    <i class="bi bi-geo-alt"></i>
-                    <strong>Departure Point:</strong> {{ write_off.departure_point.name }}
-                </p>
-                <div class="write-off-date text-secondary">
-                    Created on {{ write_off.created.date }}
-                </div>
-            </div>
-        </a>
-        {% endfor %}
+            </a>
+            {% endfor %}
+        {% endif %}
     </div>
 
     {% include 'products/includes/paginator.html' %}

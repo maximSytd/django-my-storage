@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="product-image-container">
                                     {% if product.picture_thumbnail %}
-                                        <img src="{{ product.picture.url }}" alt="{{ product.name }}" 
+                                        <img src="{{ product.picture_thumbnail.url }}" alt="{{ product.name }}" 
                                              class="product-image">
                                     {% else %}
                                         <div class="no-image">No Image</div>
@@ -91,7 +91,18 @@
                                 <div class="product-details">
                                     <p class="mb-2"><strong class="h6">In stock:</strong> {{ product.in_storage_quantity }}</p>
                                     <p class="mb-2"><strong class="h6">Being processed:</strong> {{ product.processing_quantity }}</p>
-                                    <p class="mb-2"><strong class="h6">Minimum:</strong> {{ product.min_quantity }}</p>
+                                    <p class="mb-2">
+                                        <strong class="h6">
+                                            To notify when out of stock:
+                                        </strong>
+                                        {% if product.to_notify %}
+                                            Yes
+                                            <p class="mb-2"><strong class="h6">When:</strong> < {{ product.min_quantity }}</p>
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </p>
+                                    
                                 </div>
                             </div>
                         </div>

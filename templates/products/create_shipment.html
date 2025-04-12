@@ -21,7 +21,7 @@
         {% csrf_token %}
         {{ form.ordered_by|as_crispy_field }}
         {{ form.status|as_crispy_field }}
-
+        <div class="border-top py-1"></div>
         <div id="formset">
             {{ contents_formset.management_form|crispy }}
             {% for form in contents_formset %}

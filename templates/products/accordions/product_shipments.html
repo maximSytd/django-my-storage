@@ -1,7 +1,7 @@
 {% load i18n %}
 <div class="container">
     <div class="d-flex justify-content-between mb-2">
-        <h6>History of activity with this product</h6>
+        <h6>History of this product</h6>
         <div>
             <a href="{% url 'products:create_shipment' %}" class="btn btn-primary ms-3">
                 <i class="bi bi-plus"></i>
@@ -65,7 +65,7 @@
                         </div>
                         {% empty %}
                         <div class="col-md-12">
-                            <p class="text-center">No activity yet.</p>
+                            <p class="text-center mb-0">No history yet.</p>
                         </div>
                         {% endfor %}
                     </div>

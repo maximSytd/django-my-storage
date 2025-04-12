@@ -64,7 +64,7 @@ class Product(BaseModel):
     picture_thumbnail = imagekitmodels.ImageSpecField(
         source="picture",
         processors=[
-            ResizeToFill(50, 50),
+            ResizeToFill(800, 800),
         ],
     )
     supplier = models.ForeignKey(
