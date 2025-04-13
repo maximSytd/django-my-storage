@@ -31,7 +31,7 @@ def send_products_notifications() -> None:
     email_messages = EmailMultiAlternatives(
         subject,
         message,
-        to=[user.email for user in User.objects.filter(is_staff=True)],
+        to=User.objects.filter(is_staff=True).values_list("email", flat=True),
     )
     try:
         email_messages.send()
