@@ -23,5 +23,6 @@ static/
 #db dump file
 data_dump.json
 
-#celerybeat file
+#celerybeat schedule files
 celerybeat-schedule
+celerybeat-schedule.db
