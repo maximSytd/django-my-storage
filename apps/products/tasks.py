@@ -19,7 +19,8 @@ def send_products_notifications() -> None:
         is_in_shortage=True,
     )
     message = _(
-    """Some products are out of stock \nA new batch should be ordered to replenish the goods. \n"""
+    """Some products are out of stock \nA new batch should be ordered """
+    "to replenish the goods. \n"
     )
     subject = _("Products out of stock")
     for product in products_to_notify:

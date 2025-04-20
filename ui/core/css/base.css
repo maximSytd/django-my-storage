@@ -20,3 +20,8 @@ body {
     background-color: #444;
     color: #ffffff;
 }
+
+.section-icon {
+    max-width: 20px;
+    max-height: 20px;
+}

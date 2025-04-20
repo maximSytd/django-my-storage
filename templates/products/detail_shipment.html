@@ -41,7 +41,7 @@
             {% if shipment.ordered_by == user %}
                 You
             {% else %}
-                {{ shipment.ordered_by.full_name }}
+                {{ shipment.ordered_by.first_name }} {{ shipment.ordered_by.last_name }}
             {% endif %}
         </p>
         <p>

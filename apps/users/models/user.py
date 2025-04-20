@@ -120,4 +120,4 @@ class User(
         verbose_name_plural = _("Users")
 
     def __str__(self) -> str:
-        return self.username
+        return f"{self.first_name} {self.last_name}"
