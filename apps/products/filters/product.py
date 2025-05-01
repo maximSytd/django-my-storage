@@ -56,15 +56,11 @@ class ProductFilter(filterset.FilterSet):
             ("-name", _("By name (B-A)")),
             ("-in_storage_quantity", _("By quantity (more first)")),
             ("in_storage_quantity", _("By quantity (less first)")),
+            ("-weight", _("By weight (more first)")),
+            ("weight", _("By weight (less first)")),
             ("category", _("By category")),
             ("supplier", _("By supplier")),
         ),
-        fields={
-            'name': 'name',
-            'in_storage_quantity': 'in_storage_quantity',
-            'supplier': 'supplier',
-            'category': 'category',
-        },
         label=_("sorting"),
         empty_label=_("Without sort"),
     )
