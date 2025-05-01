@@ -1,6 +1,9 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+from django_measurement.forms import MeasurementField, MeasurementWidget
+from measurement.measures import Weight
+
 from ..models import Product, Category, Supplier
 from ..validators import validate_image_size
 
@@ -24,6 +27,25 @@ class ProductForm(forms.ModelForm):
             }
         ),
         label=_("sku"),
+    )
+    weight = MeasurementField(
+        measurement=Weight,
+        widget=MeasurementWidget(
+            unit_choices=(
+                ("kg", _("Kilograms")),
+                ("g", _("Grams")),
+            ),
+            attrs={
+                'class': 'form-control w-25',
+                'placeholder': _('Input weight'),
+                'step': '0.001',
+                'min': '0',
+                'max': '100000'
+            }
+        ),
+        min_value=Weight(g=1),
+        max_value=Weight(kg=1000),
+        label=_("weight of 1 item in packaging")
     )
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
@@ -81,6 +103,7 @@ class ProductForm(forms.ModelForm):
         fields = (
             "name",
             "sku",
+            "weight",
             "category",
             "min_quantity",
             "picture",

@@ -25,6 +25,7 @@ celery = "^5.5.1"
 django-redis = "^5.4.0"
 python-decouple = "^3.8"
 rich = "^14.0.0"
+django-measurement = "^3.2.4"
 
 
 [build-system]

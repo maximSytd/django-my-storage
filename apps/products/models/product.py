@@ -4,7 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from imagekit import models as imagekitmodels
+from django_measurement.models import MeasurementField
 from imagekit.processors import ResizeToFill, Transpose
+from measurement.measures import Weight
 
 from apps.core.models import BaseModel
 from .. import querysets
@@ -43,6 +45,16 @@ class Product(BaseModel):
         max_length=120,
         verbose_name=_("Sku"),
         unique=True,
+    )
+    weight = weight = MeasurementField(
+        measurement=Weight,
+        unit_choices=(
+            ("kg", _("Kilograms")),
+            ("g", _("Grams")),
+        ),
+        verbose_name=_("Weight"),
+        help_text=_("Weight of one unit of product in packaging"),
+        null=True,
     )
     category = models.ForeignKey(
         to="products.Category",

@@ -91,6 +91,7 @@
                                 <div class="product-details">
                                     <p class="mb-2"><strong class="h6">In stock:</strong> {{ product.in_storage_quantity }}</p>
                                     <p class="mb-2"><strong class="h6">Being processed:</strong> {{ product.processing_quantity }}</p>
+                                    <p class="mb-2"><strong class="h6">Weight of 1 item in packaging:</strong> {{ product.weight }}</p>
                                     <p class="mb-2">
                                         <strong class="h6">
                                             Notify managers when product out of stock:
@@ -102,7 +103,6 @@
                                             No
                                         {% endif %}
                                     </p>
-                                    
                                 </div>
                             </div>
                         </div>
