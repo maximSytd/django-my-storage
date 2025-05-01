@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from django_filters import filterset
+from django_filters import filterset, OrderingFilter
 
 from ..models import Product, Category, Supplier
 
@@ -50,7 +50,24 @@ class ProductFilter(filterset.FilterSet):
         label=_("supplier"),
         required=False,
     )
-
+    ordering = OrderingFilter(
+        choices=(
+            ("name", _("By name (A-B)")),
+            ("-name", _("By name (B-A)")),
+            ("-in_storage_quantity", _("By quantity (more first)")),
+            ("in_storage_quantity", _("By quantity (less first)")),
+            ("category", _("By category")),
+            ("supplier", _("By supplier")),
+        ),
+        fields={
+            'name': 'name',
+            'in_storage_quantity': 'in_storage_quantity',
+            'supplier': 'supplier',
+            'category': 'category',
+        },
+        label=_("sorting"),
+        empty_label=_("Without sort"),
+    )
 
     class Meta:
         model = Product
