@@ -50,7 +50,6 @@ class Product(BaseModel):
         measurement=Weight,
         unit_choices=(
             ("kg", _("Kilograms")),
-            ("g", _("Grams")),
         ),
         verbose_name=_("Weight"),
         help_text=_("Weight of one unit of product in packaging"),

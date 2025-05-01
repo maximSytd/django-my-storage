@@ -33,19 +33,18 @@ class ProductForm(forms.ModelForm):
         widget=MeasurementWidget(
             unit_choices=(
                 ("kg", _("Kilograms")),
-                ("g", _("Grams")),
             ),
             attrs={
                 'class': 'form-control w-25',
                 'placeholder': _('Input weight'),
                 'step': '0.001',
                 'min': '0',
-                'max': '100000'
+                'max': '100000',
             }
         ),
         min_value=Weight(g=1),
         max_value=Weight(kg=1000),
-        label=_("weight of 1 item in packaging")
+        label=_("weight of 1 item in packaging"),
     )
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),

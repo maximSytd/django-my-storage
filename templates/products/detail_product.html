@@ -91,14 +91,16 @@
                                 <div class="product-details">
                                     <p class="mb-2"><strong class="h6">In stock:</strong> {{ product.in_storage_quantity }}</p>
                                     <p class="mb-2"><strong class="h6">Being processed:</strong> {{ product.processing_quantity }}</p>
+                                    <div class="border-top border-1 border-dark my-1 w-50"></div>
                                     <p class="mb-2"><strong class="h6">Weight of 1 item in packaging:</strong> {{ product.weight }}</p>
+                                    <p class="mb-2"><strong class="h6">Total weight in storage:</strong> {{ product.total_weight }}</p>
+                                    <div class="border-top border-1 border-dark my-1 w-50"></div>
                                     <p class="mb-2">
                                         <strong class="h6">
                                             Notify managers when product out of stock:
                                         </strong>
                                         {% if product.to_notify %}
-                                            Yes
-                                            <p class="mb-2"><strong class="h6">When:</strong> < {{ product.min_quantity }}</p>
+                                            Yes, <strong class="h6">When</strong> < {{ product.min_quantity }}
                                         {% else %}
                                             No
                                         {% endif %}

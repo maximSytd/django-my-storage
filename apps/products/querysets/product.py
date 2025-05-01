@@ -2,26 +2,32 @@ import typing
 from django.db.models import (
     IntegerField,
     BooleanField,
+    FloatField,
+    CharField,
     Subquery,
     QuerySet,
     OuterRef,
     Prefetch,
+    Value,
     Case,
     When,
     Sum,
     F,
 )
-from django.db.models.functions import Coalesce
+from django.db.models.functions import Coalesce, Cast, Concat
 from django.contrib.contenttypes.models import ContentType
 
 from .. import models
 
 
 class ProductQueryset(QuerySet):
-
     def with_quantity(self) -> typing.Self:
-        shipment_content_type = ContentType.objects.get_for_model(models.Shipment)
-        writeoff_content_type = ContentType.objects.get_for_model(models.WriteOff)
+        shipment_content_type = ContentType.objects.get_for_model(
+            models.Shipment,
+        )
+        writeoff_content_type = ContentType.objects.get_for_model(
+            models.WriteOff,
+        )
 
         accepted_quantity_subquery = models.ProductActivity.objects.filter(
             product=OuterRef("pk"),
@@ -84,4 +90,22 @@ class ProductQueryset(QuerySet):
                 default=False,
                 output_field=BooleanField(),
             ),
+        )
+
+    def with_total_weight(self) -> typing.Self:
+        return self.annotate(
+            total_weight=Case(
+                When(
+                    weight__isnull=False,
+                    then=Concat(
+                        Cast(
+                            F("in_storage_quantity") * F("weight"),
+                            output_field=FloatField()
+                        ),
+                        Value(" kg"),
+                    ),
+                ),
+                default=Value("0 kg"),
+                output_field=CharField()
+            )
         )

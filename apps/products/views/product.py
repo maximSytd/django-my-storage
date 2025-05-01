@@ -57,7 +57,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "products/detail_product.html"
     context_object_name = "product"
-    queryset = Product.objects.with_quantity()
+    queryset = Product.objects.with_quantity().with_total_weight()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
