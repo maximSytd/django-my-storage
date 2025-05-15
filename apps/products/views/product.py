@@ -19,7 +19,6 @@ class ProductListView(LoginRequiredMixin, FilterView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filtered_count'] = self.object_list.count()
         context["category_form"] = CategoryForm()
         context["categories"] = Category.objects.all()
         return context
