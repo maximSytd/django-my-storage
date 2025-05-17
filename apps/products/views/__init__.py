@@ -40,3 +40,8 @@ from .departure_point import (
     DeparturePointUpdateView,
     DeparturePointDeleteView,
 )
+
+from .summary import (
+    ProductActivitySummaryView,
+    DashboardSummaryView,
+)

@@ -28,6 +28,8 @@ from .views import (
     ProductActivityDeleteView,
     ProductActivityUpdateView,
     DeparturePointDeleteView,
+    ProductActivitySummaryView,
+    DashboardSummaryView,
 )
 
 app_name = "products"
@@ -167,5 +169,15 @@ urlpatterns = [
         "departure-points/<int:pk>/delete/",
         DeparturePointDeleteView.as_view(),
         name="delete_departure_point",
-    )
+    ),
+    path(
+        "summary/",
+        DashboardSummaryView.as_view(),
+        name="summary",
+    ),
+    path(
+        "summary/product-activity/",
+        ProductActivitySummaryView.as_view(),
+        name="summary_product_activity",
+    ),
 ]
