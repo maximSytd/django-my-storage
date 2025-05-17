@@ -13,6 +13,7 @@ from django.db.models import (
     When,
     Sum,
     F,
+    Q,
 )
 from django.db.models.functions import Coalesce, Cast, Concat
 from django.contrib.contenttypes.models import ContentType
@@ -96,7 +97,7 @@ class ProductQueryset(QuerySet):
         return self.annotate(
             total_weight=Case(
                 When(
-                    weight__isnull=False,
+                    Q(weight__isnull=False) & Q(in_storage_quantity__gt=0),
                     then=Concat(
                         Cast(
                             F("in_storage_quantity") * F("weight"),
