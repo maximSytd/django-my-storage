@@ -9,6 +9,36 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'products/css/list_suppliers.css' %}" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<style>
+    .supplier-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+        background-color: #6c757d;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    .avatar-initials {
+        font-size: 16px;
+    }
+    
+    .supplier-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .supplier-info {
+        display: flex;
+        align-items: center;
+    }
+</style>
 {% endblock %}
 
 {% block page_name %}
@@ -81,12 +111,23 @@
         <div class="col-md-12">
             {% if suppliers %}
                 {% for supplier in suppliers %}
-                <div class="supplier-card">
-                    <div>
-                        <i class="bi bi-people"></i>
-                        <span class="ms-2">{{ supplier.name }}</span>
-                        &nbsp;
-                        <strong>Email:</strong> {{ supplier.email }}
+                <div class="supplier-card mb-3 p-3 rounded">
+                    <div class="supplier-info">
+                        <!-- Аватар с инициалами -->
+                        <div class="supplier-avatar">
+                            <span class="avatar-initials">
+                                {{ supplier.name|slice:":1"|upper }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">{{ supplier.name }}</span>
+                            <div class="text-muted small">
+                                <i class="bi bi-envelope"></i> {{ supplier.email }}
+                                {% if supplier.phone %}
+                                &nbsp; | &nbsp; <i class="bi bi-telephone"></i> {{ supplier.phone }}
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex action-buttons">
                         <a href="{% url 'products:update_supplier' supplier.pk %}" class="btn btn-outline-primary edit-button me-2">
@@ -118,6 +159,11 @@
                 var url = button.getAttribute('data-url');
                 var form = deleteModal.querySelector('#deleteForm');
                 form.action = url;
+            });
+            document.querySelectorAll('.supplier-avatar').forEach(avatar => {
+                const colors = ['#6c757d', '#0d6efd', '#198754', '#dc3545', '#fd7e14', '#ffc107', '#0dcaf0'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                avatar.style.backgroundColor = randomColor;
             });
         });
     </script>
