@@ -32,4 +32,4 @@ class WriteOff(BaseModel):
         verbose_name_plural = _("Write offs")
 
     def __str__(self) -> str:
-        return f"{self.quantity}"
+        return f"{self.id}"

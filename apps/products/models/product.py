@@ -46,7 +46,7 @@ class Product(BaseModel):
         verbose_name=_("Sku"),
         unique=True,
     )
-    weight = weight = MeasurementField(
+    weight = MeasurementField(
         measurement=Weight,
         unit_choices=(
             ("kg", _("Kilograms")),
@@ -75,7 +75,7 @@ class Product(BaseModel):
     picture_thumbnail = imagekitmodels.ImageSpecField(
         source="picture",
         processors=[
-            ResizeToFill(800, 800),
+            ResizeToFill(50, 50),
         ],
     )
     supplier = models.ForeignKey(

@@ -40,4 +40,4 @@ class Shipment(BaseModel):
         verbose_name_plural = _("Shipments")
 
     def __str__(self) -> str:
-        return f"Shipment(id={self.id})"
+        return f"{self.id}"
