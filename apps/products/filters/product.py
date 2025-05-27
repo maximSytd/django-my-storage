@@ -8,6 +8,7 @@ from ..models import Product, Category, Supplier
 
 class ProductFilter(filterset.FilterSet):
     """Represent filter of products list."""
+
     name = filterset.CharFilter(
         widget=forms.TextInput(
             attrs={

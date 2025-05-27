@@ -1,8 +1,9 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django_filters.views import FilterView
 from django.contrib.contenttypes.models import ContentType
+
+from django_filters.views import FilterView
 
 from ..models import Product, Category, Shipment, WriteOff
 from ..filters import ProductFilter
