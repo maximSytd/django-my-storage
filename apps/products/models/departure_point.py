@@ -22,6 +22,18 @@ class DeparturePoint(BaseModel):
         null=True,
         blank=True,
     )
+    class DeparturePointType(models.TextChoices):
+        NOT_SPECIFIED = "Not specified", _("Not specified")
+        RETAIL_PLACE = "Retail place", _("Retail place")
+        SUPPLIER_STORAGE = "Supplier storage", _("Supplier storage")
+        OTHER_STORAGE = "Other storage", _("Other storage")
+
+    type = models.CharField(
+        choices=DeparturePointType.choices,
+        default=DeparturePointType.NOT_SPECIFIED.value,
+        verbose_name=_("Type"),
+        max_length=20,
+    )
 
     class Meta:
         verbose_name = _("Departure point")

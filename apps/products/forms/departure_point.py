@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.gis.geos import Point
+from django.utils.translation import gettext_lazy as _
 
 from ..models import DeparturePoint
 
@@ -12,12 +13,28 @@ class DeparturePointForm(forms.ModelForm):
         widget=forms.HiddenInput(),
         required=False
     )
+    type = forms.ChoiceField(
+        widget=forms.Select(
+            attrs={
+                "class": "form-control w-25",
+                "placeholder": _("Select status"),
+            }
+        ),
+        label=_("Type"),
+        choices=DeparturePoint.DeparturePointType.choices,
+        required=False,
+    )
 
     class Meta:
         model = DeparturePoint
-        fields = ('name', 'latitude', 'longitude')
+        fields = ('name', 'latitude', 'longitude', "type")
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control w-25'}),
+            'name': forms.TextInput(
+                attrs={
+                    'class': 'form-control w-25',
+                    "placeholder": _("Input name "),
+                }
+            ),
         }
 
     def __init__(self, *args, **kwargs):
