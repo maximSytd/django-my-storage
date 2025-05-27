@@ -43,7 +43,7 @@ class SupplierFilter(filterset.FilterSet):
                 "data-placeholder": _("Choice Product"),
             },
         ),
-        label=_("supplier"),
+        label=_("product"),
         required=False,
         method=filter_product,
     )

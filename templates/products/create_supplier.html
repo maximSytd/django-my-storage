@@ -11,7 +11,7 @@
 
 {% block page_name %}
 <div class="w-100 d-flex justify-content-center">
-    <a class="navbar-brand mx-auto" href="#">Добавление поставщика</a>
+    <a class="navbar-brand mx-auto" href="#">Add new supplier</a>
 </div>
 {% endblock %}
 
@@ -20,7 +20,7 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
-            <button class="btn btn-primary" type="submit">Создать поставщика</button>
+            <button class="btn btn-primary" type="submit">Save</button>
         </form>
     </div>
 {% endblock %}

@@ -14,6 +14,7 @@ class WriteOffListView(LoginRequiredMixin, ListView):
     model = WriteOff
     template_name = "products/list_write_offs.html"
     context_object_name = "write_offs"
+    paginate_by = 10
 
 
 class WriteOffCreateView(LoginRequiredMixin, CreateView):

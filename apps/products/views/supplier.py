@@ -33,6 +33,7 @@ class SupplierListView(LoginRequiredMixin, FilterView):
     template_name = "products/list_suppliers.html"
     context_object_name = "suppliers"
     filterset_class = SupplierFilter
+    paginate_by = 10
 
 
 class SupplierDeleteView(LoginRequiredMixin, DeleteView):

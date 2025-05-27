@@ -23,6 +23,7 @@ class ShipmentListView(LoginRequiredMixin, FilterView):
     template_name = "products/list_shipments.html"
     context_object_name = "shipments"
     queryset = Shipment.objects.with_contents()
+    paginate_by = 10
 
 class ShipmentCreateView(LoginRequiredMixin, CreateView):
     model = Shipment

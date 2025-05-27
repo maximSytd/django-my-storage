@@ -12,6 +12,7 @@ class DeparturePointListView(LoginRequiredMixin, ListView):
     model = DeparturePoint
     template_name = "products/list_departure_points.html"
     context_object_name = "departure_points"
+    paginate_by = 10
 
 
 class DeparturePointCreateView(LoginRequiredMixin, CreateView):
