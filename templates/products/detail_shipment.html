@@ -29,7 +29,13 @@
                     <i class="bi bi-truck"></i>
                     {{ shipment.get_status_display }}
                     <i class="bi bi-gear-fill" data-bs-toggle="modal" data-bs-target="#updateStatusModal" style="cursor: pointer;"></i>
-                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteShipmentModal" style="padding: 6px 12px; border-radius: 4px; margin-left: 2%;">
+                    <button id="notificationToggle"
+                            class="btn btn-outline-secondary ms-2 {% if user in shipment.followers.all %}active{% endif %}" 
+                            type="button"
+                            data-following="{% if user in shipment.followers.all %}true{% else %}false{% endif %}">
+                        <i class="bi bi-bell{% if user in shipment.followers.all %}-fill{% else %}{% endif %}"></i>
+                    </button>
+                    <button class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteShipmentModal" style="padding: 6px 12px; border-radius: 4px;">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
@@ -102,4 +108,83 @@
 {% block scripts %}
 {% include 'products/includes/filter_common_scripts.html' %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const notificationToggle = document.getElementById('notificationToggle');
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const url = "{% url 'products:follow_shipment' pk=shipment.pk %}";
+    
+    if (notificationToggle) {
+        // Инициализация состояния при загрузке
+        const isFollowing = notificationToggle.dataset.following === 'true';
+        
+        notificationToggle.addEventListener('click', function() {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+кнопки                if (data.status === 201) {
+                    // Обновляем состояние 
+                    const newFollowingState = data.is_followed;
+                    notificationToggle.classList.toggle('active', newFollowingState);
+                    notificationToggle.dataset.following = newFollowingState.toString();
+                    updateBellIcon(newFollowingState);
+                    
+                    // Обновляем счетчик подписчиков
+                    const countSpan = notificationToggle.querySelector('.followers-count');
+                    if (countSpan) {
+                        countSpan.textContent = data.followers_count;
+                    }
+                    showToast(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Произошла ошибка. Пожалуйста, попробуйте снова.', 'error');
+            });
+        });
+    }
+    
+    function updateBellIcon(isFollowing) {
+        const bellIcon = notificationToggle.querySelector('i');
+        if (isFollowing) {
+            bellIcon.classList.remove('bi-bell');
+            bellIcon.classList.add('bi-bell-fill');
+        } else {
+            bellIcon.classList.remove('bi-bell-fill');
+            bellIcon.classList.add('bi-bell');
+        }
+    }
+    
+    function showToast(message, type = 'success') {
+        const toastElement = document.getElementById('notificationToast');
+        const toastBody = document.getElementById('toastMessage');
+        
+        if (toastElement && toastBody) {
+            if (type === 'error') {
+                toastElement.querySelector('.toast-header').classList.add('bg-danger');
+            } else {
+                toastElement.querySelector('.toast-header').classList.remove('bg-danger');
+            }
+            
+            toastBody.textContent = message;
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
+    }
+});
+</script>
+
 {% endblock %}

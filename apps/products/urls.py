@@ -18,6 +18,7 @@ from .views import (
     ShipmentDetailView,
     ShipmentUpdateView,
     ShipmentDeleteView,
+    ShipmentFollowView,
     WriteOffListView,
     WriteOffCreateView,
     WriteOffDetailView,
@@ -119,6 +120,11 @@ urlpatterns = [
         "shipments/<int:pk>/delete/",
         ShipmentDeleteView.as_view(),
         name="delete_shipment",
+    ),
+    path(
+        "shipments/<int:pk>/follow/",
+        ShipmentFollowView.as_view(),
+        name="follow_shipment",
     ),
     path(
         "product-activity/<int:pk>/update/",

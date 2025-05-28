@@ -32,6 +32,13 @@ class Shipment(BaseModel):
         ProductActivity,
         related_query_name='shipment',
     )
+    followers = models.ManyToManyField(
+        to="users.User",
+        verbose_name=_("Followers"),
+        help_text=_("Notifying users that followed, for status changes"),
+        related_name="followed_shipments",
+        blank=True,
+    )
 
     objects = querysets.ShipmentQueryset.as_manager()
 

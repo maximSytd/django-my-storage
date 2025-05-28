@@ -40,6 +40,7 @@ class ShipmentAdmin(BaseAdmin):
             "fields": (
                 "ordered_by",
                 "status",
+                "followers",
             ),
         }),
     )

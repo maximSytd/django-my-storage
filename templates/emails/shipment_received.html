@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject }}</title>
+    <style>
+        .summary-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        .summary-item {
+            text-align: center;
+            padding: 0 10px;
+        }
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a6fa5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Shipment Received</h1>
+    </div>
+    <div class="content">
+        <div class="shipment-info">
+            <h2>Shipment #{{ shipment.id }}</h2>
+            <p><strong>Supplier:</strong> {{ shipment.supplier.name }}</p>
+            <p><strong>Received at:</strong> {{ shipment.created|date:"F j, Y H:i" }}</p>
+        </div>
+        <div class="summary-card">
+            <div class="summary-item">
+                <div class="summary-value">{{ shipment.positions_count }}</div>
+                <div>Product Types</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value">{{ shipment.total_products_quantity }}</div>
+                <div>Total Units</div>
+            </div>
+        </div>
+        <h3>Products Received:</h3>
+        {% for content in shipment.all_contents %}
+        <div class="product-card">
+            {% if content.product.picture_thumbnail %}
+            <img src="{{ content.product.picture_thumbnail.url }}" alt="{{ content.product.name }}" class="product-image">
+            {{ content.product }}
+            {% endif %}
+            <div class="product-details">
+                <div class="product-name">{{ content.product.name }}</div>
+                <div class="product-sku">SKU: {{ content.product.sku }}</div>
+                <div class="product-quantity">Quantity: {{ content.quantity }}</div>
+                {% if content.product.weight %}
+                <div class="product-weight">Weight: {{ content.product.weight }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        <p>All items have been checked and recorded in our system.</p>
+        <a href="http://{{ domain }}{% url 'products:detail_shipment' pk=shipment.pk %}" class="button">View Shipment Details</a>
+    </div>
+    <div class="footer">
+        <p>This is an automated message. Please do not reply directly to this email.</p>
+    </div>
+</body>
+</html>

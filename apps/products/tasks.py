@@ -2,11 +2,13 @@ import logging
 
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.contrib.sites.models import Site
 
 from celery import shared_task
 
 from apps.users.models import User
-from .models import Product
+from .models import Product, Shipment
 
 
 logger = logging.getLogger("my-storage.custom")
@@ -40,3 +42,41 @@ def send_products_notifications() -> None:
         logging.exception(
             _("Filed to send products out of stock notifications for users"),
         )
+
+
+@shared_task(name="send_shipment_status_notification")
+def send_shipment_status_notification(shipment_id: int) -> None:
+    shipment = (
+        Shipment.objects
+        .filter(id=shipment_id)
+        .with_contents()
+        .first()
+    )
+    if not shipment:
+        logging.error(f"Shipment {shipment_id} not found")
+        return
+
+    subject = _("Shipment #{} Received in Warehouse").format(shipment_id)
+
+    context = {
+        'shipment': shipment,
+        'subject': subject,
+        "domain": Site.objects.get_current().domain,
+    }
+    message = _(
+        """Shipment #{} has been successfully received in the warehouse.\n\n"""
+        """All items have been checked and recorded in the system.\n"""
+    ).format(shipment_id)
+    html_message = render_to_string('emails/shipment_received.html', context)
+
+    email = EmailMultiAlternatives(
+        subject,
+        message,
+        to=shipment.followers.values_list("email", flat=True),
+    )
+    email.attach_alternative(html_message, "text/html")
+
+    try:
+        email.send()
+    except Exception:
+        logging.exception("Failed to send shipment notification")

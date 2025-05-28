@@ -23,6 +23,7 @@ from .shipment import (
     ShipmentDetailView,
     ShipmentUpdateView,
     ShipmentDeleteView,
+    ShipmentFollowView,
 )
 from .product_activity import (
     ProductActivityDeleteView,

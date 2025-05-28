@@ -1,9 +1,15 @@
+import http
+
+from django.shortcuts import get_object_or_404
+from django.views import View
 from django.views.generic import CreateView, DetailView, DeleteView
 from django.views.generic.edit import BaseUpdateView
 from django.forms import formset_factory
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
+from django.http import JsonResponse
 
 from django_filters.views import FilterView
 
@@ -14,6 +20,8 @@ from ..forms import (
     ProductActivityForm,
 )
 from ..filters import ShipmentFilter
+from ..tasks import send_shipment_status_notification
+
 
 class ShipmentListView(LoginRequiredMixin, FilterView):
     """Shipment list class-based view."""
@@ -70,6 +78,7 @@ class ShipmentDetailView(LoginRequiredMixin, DetailView):
         context["update_form"] = ShipmentUpdateForm()
         return context
 
+
 class ShipmentUpdateView(LoginRequiredMixin, BaseUpdateView):
     model = Shipment
     form_class = ShipmentUpdateForm
@@ -80,7 +89,42 @@ class ShipmentUpdateView(LoginRequiredMixin, BaseUpdateView):
             kwargs={'pk': self.object.pk},
         )
 
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        new_status = form.data.get("status")
+        if form.initial.get("status") != new_status and new_status == Shipment.ShipmentStatus.ACCEPTED.value:
+            send_shipment_status_notification.delay(shipment_id=self.object.id)
+        return super().form_valid(form)
+
 
 class ShipmentDeleteView(LoginRequiredMixin, DeleteView):
     model = Shipment
     success_url = reverse_lazy("products:list_shipments")
+
+
+class ShipmentFollowView(LoginRequiredMixin, View):
+    """View to follow/unfollow shipment."""
+
+    def post(self, request, *args, **kwargs):
+        """Perform add or remove shipment follow."""
+        shipment = get_object_or_404(
+            Shipment,
+            id=kwargs["pk"],
+        )
+        user = request.user
+        is_followed = False
+        if shipment.followers.filter(id=user.id).exists():
+            shipment.followers.remove(user)
+        else:
+            shipment.followers.add(user)
+            is_followed = True
+        return JsonResponse(
+            {
+                "status": http.HTTPStatus.CREATED,
+                "detail": _(
+                    f"Shipment {"un" if not is_followed else ""}followed",
+                ),
+                "is_followed": is_followed,
+            },
+            status=http.HTTPStatus.CREATED,
+        )
