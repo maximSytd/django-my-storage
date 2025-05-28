@@ -48,10 +48,6 @@
         <h3>Products Received:</h3>
         {% for content in shipment.all_contents %}
         <div class="product-card">
-            {% if content.product.picture_thumbnail %}
-            <img src="{{ content.product.picture_thumbnail.url }}" alt="{{ content.product.name }}" class="product-image">
-            {{ content.product }}
-            {% endif %}
             <div class="product-details">
                 <div class="product-name">{{ content.product.name }}</div>
                 <div class="product-sku">SKU: {{ content.product.sku }}</div>
