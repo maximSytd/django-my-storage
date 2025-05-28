@@ -67,7 +67,10 @@ def send_shipment_status_notification(shipment_id: int) -> None:
         """Shipment #{} has been successfully received in the warehouse.\n\n"""
         """All items have been checked and recorded in the system.\n"""
     ).format(shipment_id)
-    html_message = render_to_string('emails/shipment_received.html', context)
+    html_message = render_to_string(
+        'emails/shipment_status_notification.html',
+        context,
+    )
 
     email = EmailMultiAlternatives(
         subject,
@@ -76,6 +79,10 @@ def send_shipment_status_notification(shipment_id: int) -> None:
     )
     email.attach_alternative(html_message, "text/html")
 
+    email.extra_headers = {
+        'Precedence': 'bulk',
+        'X-Mailru-Msgtype': 'transactional',
+    }
     try:
         email.send()
     except Exception:
