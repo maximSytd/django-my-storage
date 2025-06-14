@@ -13,7 +13,7 @@ class Shipment(BaseModel):
         to="users.User",
         related_name="shipments",
         on_delete=models.RESTRICT,
-        verbose_name=_("Ordered_by"),
+        verbose_name=_("Ordered by"),
     )
     class ShipmentStatus(models.TextChoices):
         IN_ASSEMBLY = "In assembly", _("In assembly")

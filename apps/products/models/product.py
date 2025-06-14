@@ -91,4 +91,4 @@ class Product(BaseModel):
         verbose_name_plural = _("Products")
 
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f"{self.name} ({self.supplier.name}) "
