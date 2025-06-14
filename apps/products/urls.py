@@ -29,8 +29,9 @@ from .views import (
     ProductActivityDeleteView,
     ProductActivityUpdateView,
     DeparturePointDeleteView,
-    ProductActivitySummaryView,
     DashboardSummaryView,
+    ProductActivitySummaryView,
+    SupplierSummaryView,
 )
 
 app_name = "products"
@@ -185,5 +186,10 @@ urlpatterns = [
         "summary/product-activity/",
         ProductActivitySummaryView.as_view(),
         name="summary_product_activity",
+    ),
+    path(
+        "summary/supplier/",
+        SupplierSummaryView.as_view(),
+        name="summary_supplier",
     ),
 ]

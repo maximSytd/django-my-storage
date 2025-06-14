@@ -43,6 +43,7 @@ from .departure_point import (
 )
 
 from .summary import (
-    ProductActivitySummaryView,
     DashboardSummaryView,
+    ProductActivitySummaryView,
+    SupplierSummaryView,
 )
