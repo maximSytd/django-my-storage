@@ -1,5 +1,7 @@
 from django.urls import reverse_lazy
+from django.core.exceptions import ValidationError
 from django.views.generic import CreateView, DetailView, DeleteView
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.contrib.contenttypes.models import ContentType
@@ -39,15 +41,46 @@ class WriteOffCreateView(LoginRequiredMixin, CreateView):
             self.object = form.save()
 
             writeoff_content_type = ContentType.objects.get_for_model(WriteOff)
-
+            cleaned_models = []
             for content_form in contents_formset:
-                if content_form.cleaned_data.get('product') and content_form.cleaned_data.get('quantity'):
-                    ProductActivity.objects.create(
-                        content_type=writeoff_content_type,
-                        object_id=self.object.id,
-                        product=content_form.cleaned_data['product'],
-                        quantity=content_form.cleaned_data['quantity']
+                cleaned_product = content_form.cleaned_data.get('product')
+                cleaned_quantity = content_form.cleaned_data.get('quantity')
+                if cleaned_product and cleaned_quantity:
+                    if cleaned_product.in_storage_quantity < cleaned_quantity:
+                        form.add_error(
+                            field=None,
+                            error=ValidationError(
+                                _(
+                                    (
+                                        "Current storage quantity of"
+                                        " %(product)s is less than"
+                                        " %(over_quantity)d that you want to"
+                                        " write off, %(actual_quantity)d is"
+                                        " actual of it."
+                                    )
+                                ),
+                                params={
+                                    "product": cleaned_product,
+                                    "over_quantity": cleaned_quantity,
+                                    "actual_quantity": (
+                                        cleaned_product.in_storage_quantity
+                                    ),
+                                },
+                                code="invalid",
+                            ),
+                        )
+                    cleaned_models.append(
+                        ProductActivity(
+                            content_type=writeoff_content_type,
+                            object_id=self.object.id,
+                            product=cleaned_product,
+                            quantity=cleaned_quantity,
+                        ),
                     )
+            if form.errors:
+                self.object.delete()
+                return super().form_invalid(form)
+            ProductActivity.objects.bulk_create(cleaned_models)
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form))
