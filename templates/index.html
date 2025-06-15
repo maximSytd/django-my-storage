@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}My storage{% endblock %}
+{% block title %}My Storage - Dashboard{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'core/css/index.css' %}" />
@@ -10,20 +10,159 @@
         max-width: 1200px;
         margin: 0 auto;
     }
+    .dashboard-card {
+        background-color: #2c3034;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+        height: 100%;
+        border: 1px solid #3e444a;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+    .quick-actions .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        border: 1px solid #4e555b;
+    }
+    .pending-shipments {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .shipment-item {
+        border-left: 3px solid #6c757d;
+        padding: 12px 15px;
+        margin-bottom: 12px;
+        background-color: #343a40;
+        border-radius: 5px;
+    }
+    .shipment-item:hover {
+        background-color: #3e444a;
+    }
+    .badge-pending {
+        background-color: #6c757d;
+    }
+    .btn-secondary-custom {
+        background-color: #495057;
+        color: #e9ecef;
+    }
+    .btn-secondary-custom:hover {
+        background-color: #5a6268;
+        color: white;
+    }
 </style>
 {% endblock %}
 
 {% block page_name %}
+<h4 class="my-0">Dashboard</h4>
 {% endblock %}
 
 {% block content %}
 <div class="content-container mt-4 p-3">
     <div class="text-center mb-4">
-        <h1>Welcome</h1>
-        <p>Manage supplies activity for your warehouse easily and conveniently</p>
+        <h1>Warehouse Control Panel</h1>
+        <p class="text-muted">Manage your inventory efficiently</p>
     </div>
 
-    <div class="row">
+    <div class="row g-4 mb-4">
+        <!-- Statistics Cards -->
+        <div class="col-md-3">
+            <div class="dashboard-card p-4 text-center">
+                <i class="bi bi-box-seam fs-1 text-primary"></i>
+                <h3 class="mt-2">Total Products</h3>
+                <div class="stat-number text-white">{{ total_products }}</div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="dashboard-card p-4 text-center">
+                <i class="bi bi-hourglass-split fs-1 text-warning"></i>
+                <h3 class="mt-2">Pending Shipments</h3>
+                <div class="stat-number text-white">{{ pending_shipments_count }}</div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="dashboard-card p-4 text-center">
+                <i class="bi bi-people fs-1 text-info"></i>
+                <h3 class="mt-2">Suppliers</h3>
+                <div class="stat-number text-white">{{ total_suppliers }}</div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="dashboard-card p-4 text-center">
+                <i class="bi bi-shop fs-1 text-success"></i>
+                <h3 class="mt-2">Departure Points</h3>
+                <div class="stat-number text-white">{{ departure_points }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Quick Actions -->
+        <div class="col-md-4">
+            <div class="dashboard-card p-4">
+                <h4 class="mb-4"><i class="bi bi-speedometer2"></i> Quick Actions</h4>
+                <div class="quick-actions">
+                    <a href="{% url 'products:create_product' %}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Add Product
+                    </a>
+                    <a href="{% url 'products:create_shipment' %}" class="btn btn-secondary-custom">
+                        <i class="bi bi-truck"></i> Create Shipment
+                    </a>
+                    <a href="{% url 'products:create_write_off' %}" class="btn btn-secondary-custom">
+                        <i class="bi bi-trash"></i> Record Write-off
+                    </a>
+                    <a href="{% url 'products:list_products' %}" class="btn btn-info">
+                        <i class="bi bi-search"></i> Browse Products
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pending Shipments -->
+        <div class="col-md-8">
+            <div class="dashboard-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0"><i class="bi bi-hourglass"></i> Pending Shipments</h4>
+                    <a href="{% url 'products:list_shipments' %}" class="btn btn-sm btn-outline-light">View All</a>
+                </div>
+                <div class="pending-shipments">
+                    {% if pending_shipments %}
+                        {% for shipment in pending_shipments %}
+                        <div class="shipment-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>Shipment #{{ shipment.id }}</strong>
+                                    <span class="badge badge-pending ms-2">PENDING</span>
+                                </div>
+                                <small class="text-muted">{{ shipment.created_at|date:"d M Y" }}</small>
+                            </div>
+                            <div class="mt-2">
+                                <span class="me-3"><i class="bi bi-box-seam"></i> {{ shipment.products.count }} items</span>
+                                <span class="me-3"><i class="bi bi-geo-alt"></i> {{ shipment.destination.name }}</span>
+                                <span><i class="bi bi-person"></i> {{ shipment.created_by.get_full_name }}</span>
+                            </div>
+                            <div class="mt-2">
+                                <a href="{% url 'products:shipment_detail' shipment.id %}" class="btn btn-sm btn-outline-light">View Details</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-check-circle fs-1 text-success"></i>
+                            <p class="mt-2">No pending shipments</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

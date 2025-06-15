@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% load i18n %}
 
-{% block title %}Профиль{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -23,7 +24,7 @@
             <div class="card options-container">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Information about user {{ user.first_name }} {{ user.last_name }}</h5>
-                    <a href="{% url 'users:update_initials' %}" class="btn btn-warning">
+                    <a href="{% url 'users:update_user' %}" class="btn btn-warning">
                         <i class="bi bi-pencil"></i>
                     </a>
                 </div>
@@ -56,6 +57,11 @@
                 </div>
                 <div class="options-container">
                     <a href="{% url 'password_reset' %}" class="btn btn-primary">Reset password</a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'admin:users_user_changelist' %}" class="btn btn-primary ms-2">Users control</a>
+                        <a href="{% url 'admin:auth_group_changelist' %}" class="btn btn-primary ms-2">Groups control</a>
+                        <a href="{% url 'admin:sites_site_changelist' %}" class="btn btn-primary ms-2">Site settings</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -64,17 +70,16 @@
 
 <div class="modal fade" id="avatarUploadModal" tabindex="-1" aria-labelledby="avatarUploadModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title text-dark" id="avatarUploadModalLabel ">Upload avatar</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title text-white" id="avatarUploadModalLabel ">Upload avatar</h5>
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'users:update_avatar' %}">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'users:update_user' %}">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="avatar" class="form-label">Choice file</label>
-                        <input type="file" class="form-control" id="avatar" name="avatar" required>
+                        {{ user_update_form.avatar | as_crispy_field }}
                     </div>
                     <button type="submit" class="btn btn-primary">Done</button>
                 </form>

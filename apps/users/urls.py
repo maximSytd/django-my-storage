@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LogoutView, LoginView
 from django.urls import path
 
-from .views import ProfileView, UserInitialsUpdateView, UserAvatarUpdateView
+from .views import ProfileView, UserUpdateView, UserAvatarUpdateView
 
 app_name = "users"
 
@@ -26,12 +26,12 @@ urlpatterns = [
     ),
     path(
         "update-initials/",
-        UserInitialsUpdateView.as_view(),
-        name="update_initials",
+        UserUpdateView.as_view(),
+        name="update_user",
     ),
-    path(
-        "update-avatar/",
-        UserAvatarUpdateView.as_view(),
-        name="update_avatar",
-    )
+    # path(
+    #     "update-avatar/",
+    #     UserAvatarUpdateView.as_view(),
+    #     name="update_avatar",
+    # )
 ]

@@ -1,1 +1,1 @@
-from .user import UserInitialsUpdateForm
+from .user import UserUpdateForm
