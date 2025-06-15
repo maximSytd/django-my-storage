@@ -31,14 +31,3 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("users:profile")
-
-
-class UserAvatarUpdateView(LoginRequiredMixin, UpdateView):
-    fields = ("avatar",)
-    model = User
-
-    def get_object(self):
-        return self.request.user
-
-    def get_success_url(self):
-        return reverse_lazy("users:profile")
