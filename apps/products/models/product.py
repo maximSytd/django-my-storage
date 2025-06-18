@@ -84,7 +84,7 @@ class Product(BaseModel):
         on_delete=models.CASCADE,
         verbose_name=_("Supplier"),
     )
-    objects = querysets.ProductQueryset.as_manager()
+    objects = querysets.ProductQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Product")

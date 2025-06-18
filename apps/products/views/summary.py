@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Avg, Max, Min, Q
 from django.db.models.functions import TruncMonth
@@ -116,62 +116,9 @@ class ProductActivitySummaryView(LoginRequiredMixin, TemplateView):
 
         return context
 
-class SupplierSummaryView(LoginRequiredMixin, TemplateView):
+class SupplierSummaryView(LoginRequiredMixin, ListView):
     """Supplier statistics dashboard with general and per-supplier views"""
+    
     template_name = "products/summary_supplier.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        supplier_id = self.request.GET.get('supplier')
-        if supplier_id:
-            supplier = Supplier.objects.get(id=supplier_id)
-            return self._get_supplier_context(context, supplier)
-        
-        return self._get_general_context(context)
-
-    def _get_general_context(self, context):
-        suppliers = Supplier.objects.annotate(
-            product_count=Count('products'),
-            notify_count=Count('products', filter=Q(products__to_notify=True))
-        ).order_by("name")
-        
-        supplier_names = [s.name for s in suppliers]
-        product_counts = [s.product_count for s in suppliers]
-        notify_counts = [s.notify_count for s in suppliers]
-        
-        context.update({
-            'view_mode': 'general',
-            'suppliers': suppliers,
-            'supplier_names': supplier_names,
-            'product_counts': product_counts,
-            'notify_counts': notify_counts,
-            'total_products': sum(product_counts),
-            'total_suppliers': suppliers.count(),
-            'products_need_notify': sum(notify_counts),
-        })
-        return context
-
-    def _get_supplier_context(self, context, supplier):
-        products = supplier.products.all()
-        products_count = products.count()
-        need_notify_count = products.filter(to_notify=True).count()
-        
-        # Prepare categories data
-        categories_data = products.values('category__name').annotate(
-            count=Count('id')
-        ).order_by('-count')
-        
-        category_names = [cat['category__name'] for cat in categories_data]
-        category_counts = [cat['count'] for cat in categories_data]
-        
-        context.update({
-            'view_mode': 'supplier',
-            'supplier': supplier,
-            'products_count': products_count,
-            'need_notify_count': need_notify_count,
-            'no_notify_count': products_count - need_notify_count,
-            'category_names': category_names,
-            'category_counts': category_counts,
-        })
-        return context
+    context_object_name = "suppliers"
+    queryset = Supplier.objects.with_product_counts().order_by("-name")

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.models import BaseModel
+from ..querysets import SupplierQuerySet
 
 class Supplier(BaseModel):
     """Represent Supplier in db."""
@@ -15,6 +16,7 @@ class Supplier(BaseModel):
         max_length=200,
         verbose_name=_("Email"),
     )
+    objects = SupplierQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Supplier")

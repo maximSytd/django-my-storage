@@ -14,7 +14,7 @@ from django.contrib.contenttypes.models import ContentType
 from .. import models
 
 
-class WriteOffQueryset(QuerySet):
+class WriteOffQuerySet(QuerySet):
 
     def with_contents(self) -> typing.Self:
         # Получаем ContentType для модели WriteOff

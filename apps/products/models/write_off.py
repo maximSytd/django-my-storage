@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation
 
 from apps.core.models import BaseModel
-from ..querysets import WriteOffQueryset
+from ..querysets import WriteOffQuerySet
 from .product_activity import ProductActivity
 
 class WriteOff(BaseModel):
@@ -22,7 +22,7 @@ class WriteOff(BaseModel):
         help_text=_("Indicates the way write off created, by manager or api"),
         default=True,
     )
-    objects = WriteOffQueryset.as_manager()
+    objects = WriteOffQuerySet.as_manager()
     product_activities = GenericRelation(
         ProductActivity,
         related_query_name='write_off',

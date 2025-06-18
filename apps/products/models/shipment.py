@@ -40,7 +40,7 @@ class Shipment(BaseModel):
         blank=True,
     )
 
-    objects = querysets.ShipmentQueryset.as_manager()
+    objects = querysets.ShipmentQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Shipment")

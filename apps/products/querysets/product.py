@@ -21,7 +21,7 @@ from django.contrib.contenttypes.models import ContentType
 from .. import models
 
 
-class ProductQueryset(QuerySet):
+class ProductQuerySet(QuerySet):
     def with_quantity(self) -> typing.Self:
         shipment_content_type = ContentType.objects.get_for_model(
             models.Shipment,
