@@ -84,13 +84,23 @@
                         {% for supplier in suppliers %}
                         <tr>
                             <td>
+                                {{ supplier.name }}
+                            </td>
+                            <td>
                                 <a href="{% url 'products:list_products'%}?supplier={{ supplier.id }}" class="supplier-link">
-                                    {{ supplier.name }}
+                                    {{ supplier.products.count }}
                                 </a>
                             </td>
-                            <td>{{ supplier.products.count }}</td>
-                            <td>{{ supplier.accepted_shipments }}</td>
-                            <td>{{ supplier.pending_shipments }}</td>
+                            <td>
+                                <a href="{% url 'products:list_shipments'%}?supplier={{ supplier.id }}&status=Accepted" class="supplier-link">
+                                    {{ supplier.accepted_shipments }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'products:list_shipments'%}?supplier={{ supplier.id }}&exclude_status=Accepted" class="supplier-link">
+                                    {{ supplier.pending_shipments }}
+                                </a>
+                            </td>
                             <td>
                                 {% if supplier.products_processing_count > 0 %}
                                     {{ supplier.products_stock_count }} (+{{ supplier.products_processing_count }})

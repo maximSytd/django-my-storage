@@ -134,8 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 return response.json();
             })
-            .then(data => {
-кнопки                if (data.status === 201) {
+            .then(data => {if (data.status === 201) {
                     // Обновляем состояние 
                     const newFollowingState = data.is_followed;
                     notificationToggle.classList.toggle('active', newFollowingState);

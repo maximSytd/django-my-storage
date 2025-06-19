@@ -1,4 +1,4 @@
-from django.db.models import Sum, Count, QuerySet, IntegerField, Q, OuterRef, Subquery
+from django.db.models import Sum, Count, QuerySet, IntegerField, OuterRef, Subquery
 from django.db.models.functions import Coalesce
 from django.contrib.contenttypes.models import ContentType
 
@@ -38,7 +38,7 @@ class SupplierQuerySet(QuerySet):
         accepted_shipments_subquery = (
             models.Shipment.objects.filter(
                 product_activities__product__supplier=OuterRef('pk'),
-                status=models.Shipment.ShipmentStatus.ACCEPTED
+                status=models.Shipment.ShipmentStatus.ACCEPTED,
             )
             .values('product_activities__product__supplier')
             .annotate(count=Count('id', distinct=True))
@@ -48,13 +48,8 @@ class SupplierQuerySet(QuerySet):
         pending_shipments_subquery = (
             models.Shipment.objects.filter(
                 product_activities__product__supplier=OuterRef('pk'),
-                status__in=[
-                    models.Shipment.ShipmentStatus.IN_ASSEMBLY,
-                    models.Shipment.ShipmentStatus.IN_DELIVERY,
-                    models.Shipment.ShipmentStatus.BEING_UNLOADED,
-                    models.Shipment.ShipmentStatus.UNDER_REVIEW
-                ]
             )
+            .exclude(status=models.Shipment.ShipmentStatus.ACCEPTED)
             .values('product_activities__product__supplier')
             .annotate(count=Count('id', distinct=True))
             .values('count')[:1]

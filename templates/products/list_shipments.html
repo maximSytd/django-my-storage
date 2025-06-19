@@ -21,9 +21,15 @@
     <form class="search-form">
         <div class="row g-3 justify-content-between">
             {% csrf_token %}
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <div class="mb-3">
                 {{ filter.form.product|as_crispy_field }}
+                </div>
+                <div class="mb-3">
+                    {{ filter.form.supplier | as_crispy_field }}
+                </div>
             </div>
+            
             <div class="col-md-3">
                 {{ filter.form.status|as_crispy_field }}
             </div>

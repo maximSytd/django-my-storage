@@ -30,7 +30,7 @@ class ShipmentListView(LoginRequiredMixin, FilterView):
     filterset_class = ShipmentFilter
     template_name = "products/list_shipments.html"
     context_object_name = "shipments"
-    queryset = Shipment.objects.with_contents()
+    queryset = Shipment.objects.with_contents().order_by("-created")
     paginate_by = 10
 
 class ShipmentCreateView(LoginRequiredMixin, CreateView):
