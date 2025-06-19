@@ -6,18 +6,8 @@ from .. import models
 
 class SupplierQuerySet(QuerySet):
     def with_product_counts(self):
-        """
-        Аннотирует поставщиков с:
-        - общим количеством товаров
-        - количеством товаров на складе (из принятых поставок)
-        - количеством товаров в обработке (из поставок в других статусах)
-        - количеством принятых поставок
-        - количеством поставок в обработке
-        """
-        # Получаем ContentType для Shipment
         shipment_content_type = ContentType.objects.get_for_model(models.Shipment)
-        
-        # Подзапрос для количества товаров на складе (принятые активности)
+
         stock_quantity_subquery = (
             models.ProductActivity.objects.filter(
                 product__supplier=OuterRef('pk'),
@@ -28,8 +18,7 @@ class SupplierQuerySet(QuerySet):
             .annotate(total=Sum('quantity'))
             .values('total')[:1]
         )
-        
-        # Подзапрос для количества товаров в обработке (не принятые активности)
+
         processing_quantity_subquery = (
             models.ProductActivity.objects.filter(
                 product__supplier=OuterRef('pk'),
@@ -45,8 +34,7 @@ class SupplierQuerySet(QuerySet):
             .annotate(total=Sum('quantity'))
             .values('total')[:1]
         )
-        
-        # Подзапрос для количества принятых поставок
+
         accepted_shipments_subquery = (
             models.Shipment.objects.filter(
                 product_activities__product__supplier=OuterRef('pk'),
@@ -56,8 +44,7 @@ class SupplierQuerySet(QuerySet):
             .annotate(count=Count('id', distinct=True))
             .values('count')[:1]
         )
-        
-        # Подзапрос для количества поставок в обработке
+
         pending_shipments_subquery = (
             models.Shipment.objects.filter(
                 product_activities__product__supplier=OuterRef('pk'),
@@ -72,7 +59,7 @@ class SupplierQuerySet(QuerySet):
             .annotate(count=Count('id', distinct=True))
             .values('count')[:1]
         )
-        
+
         return self.prefetch_related("products").annotate(
             total_products=Count('products', distinct=True),
             products_stock_count=Coalesce(
