@@ -40,4 +40,4 @@ class DeparturePoint(BaseModel):
         verbose_name_plural = _("Departure points")
 
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f"{self.name} ({self.type})"

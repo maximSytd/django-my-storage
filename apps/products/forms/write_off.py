@@ -8,7 +8,7 @@ class WriteOffForm(forms.ModelForm):
     """Represent write off creation form."""
 
     departure_point = forms.ModelChoiceField(
-        queryset=DeparturePoint.objects.all(),
+        queryset=DeparturePoint.objects.all().order_by("type"),
         widget=forms.Select(
             attrs={
                 "class": "select2 form-select",

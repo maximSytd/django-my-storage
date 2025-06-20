@@ -21,13 +21,23 @@
         {% csrf_token %}
         {{ form.ordered_by|as_crispy_field }}
         {{ form.status|as_crispy_field }}
-        <div class="border-top py-1"></div>
         <div id="formset">
             {{ contents_formset.management_form|crispy }}
             {% for form in contents_formset %}
                 <div class="content-form" id="form-{{ forloop.counter0 }}">
-                    {{ form.product|as_crispy_field }}
-                    {{ form.quantity|as_crispy_field }}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                {{ form.product|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                {{ form.quantity|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top py-1"></div>
                 </div>
             {% endfor %}
         </div>
