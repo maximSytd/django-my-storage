@@ -60,6 +60,13 @@
                     {% if user.is_superuser %}
                         <a href="{% url 'admin:users_user_changelist' %}" class="btn btn-primary ms-2">Users control</a>
                         <a href="{% url 'admin:auth_group_changelist' %}" class="btn btn-primary ms-2">Groups control</a>
+                        <a href="
+                        {% if has_storage %}
+                            {% url 'products:update_storage' %}
+                        {% else %}
+                            {% url 'products:create_storage' %}
+                        {% endif %}
+                        " class="btn btn-primary ms-2">Manage storage</a>
                         <a href="{% url 'admin:sites_site_changelist' %}" class="btn btn-primary ms-2">Site settings</a>
                     {% endif %}
                 </div>

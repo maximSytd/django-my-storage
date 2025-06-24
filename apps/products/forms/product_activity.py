@@ -8,7 +8,7 @@ class ProductActivityForm(forms.ModelForm):
         queryset=Product.objects.prefetch_related("supplier").with_quantity().order_by("name"),
         widget=forms.Select(
             attrs={
-                "class": "form-control",
+                "class": "form-control select2 ",
                 "data-placeholder": _("Choice product"),
             },
         ),

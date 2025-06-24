@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 
 from .models import User
 from .forms import UserUpdateForm
+from apps.products.models import Storage
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
@@ -14,6 +15,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user_update_form"] = UserUpdateForm()
+        context["has_storage"] = Storage.objects.first()
         return context
 
     def get_object(self, queryset = None):

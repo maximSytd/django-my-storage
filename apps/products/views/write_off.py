@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.contrib.contenttypes.models import ContentType
 
-from ..models import WriteOff, ProductActivity
+from ..models import WriteOff, ProductActivity, Storage
 from ..forms import WriteOffForm, ProductActivityForm
 from django.forms import formset_factory
 
@@ -52,7 +52,7 @@ class WriteOffCreateView(LoginRequiredMixin, CreateView):
                             error=ValidationError(
                                 _(
                                     (
-                                        "Current storage quantity of"
+                                        "Current in stock quantity of"
                                         " %(product)s is less than"
                                         " %(over_quantity)d that you want to"
                                         " write off, %(actual_quantity)d is"
@@ -91,6 +91,11 @@ class WriteOffDetailView(LoginRequiredMixin, DetailView):
     template_name = "products/detail_write_off.html"
     context_object_name = "write_off"
     queryset = WriteOff.objects.with_contents()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["current_storage"] = Storage.objects.first()
+        return context
 
 class WriteOffDeleteView(LoginRequiredMixin, DeleteView):
     model = WriteOff

@@ -32,6 +32,8 @@ from .views import (
     DashboardSummaryView,
     ProductActivitySummaryView,
     SupplierSummaryView,
+    StorageCreateView,
+    StorageUpdateView,
 )
 
 app_name = "products"
@@ -191,5 +193,15 @@ urlpatterns = [
         "summary/supplier/",
         SupplierSummaryView.as_view(),
         name="summary_supplier",
+    ),
+    path(
+        "storage/create/",
+        StorageCreateView.as_view(),
+        name="create_storage",
+    ),
+    path(
+        "storage/update/",
+        StorageUpdateView.as_view(),
+        name="update_storage",
     ),
 ]

@@ -8,3 +8,4 @@ from .shipment import (
 from .departure_point import DeparturePointForm
 from .write_off import WriteOffForm
 from .product_activity import ProductActivityForm
+from .storage import StorageForm

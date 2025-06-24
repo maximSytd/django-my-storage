@@ -5,3 +5,4 @@ from .shipment import Shipment
 from .write_off import WriteOff
 from .departure_point import DeparturePoint
 from .product_activity import ProductActivity
+from .storage import Storage

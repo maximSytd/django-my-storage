@@ -47,3 +47,8 @@ from .summary import (
     ProductActivitySummaryView,
     SupplierSummaryView,
 )
+
+from .storage import (
+    StorageCreateView,
+    StorageUpdateView,
+)

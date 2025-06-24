@@ -10,12 +10,12 @@ class ShipmentCreateForm(forms.ModelForm):
         queryset=User.objects.all().order_by("username"),
         widget=forms.Select(
             attrs={
-                "class": "form-control w-25 select2",
-                "placeholder": _("Select status"),
+                "class": "select2 form-control w-25",
+                "placeholder": _("Choice user"),
             }
         ),
         label=_("Ordered by"),
-        required=False,
+        required=True,
     )
     status = forms.ChoiceField(
         widget=forms.Select(

@@ -48,6 +48,7 @@ class ShipmentCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        form.instance.ordered_by = self.request.user
         context = self.get_context_data()
         contents_formset = context['contents_formset']
 
